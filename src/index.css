@@ -6,7 +6,19 @@
 
 body {
   font-family: "Manrope", sans-serif;
-  background-color: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #99e600;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background: #000;
 }
 
 @theme inline {
