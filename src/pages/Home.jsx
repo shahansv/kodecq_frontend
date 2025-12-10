@@ -49,7 +49,7 @@ const Home = () => {
       <section className="grid sm:grid-cols-1 md:grid-cols-2 h-180 px-10">
         <div className="flex items-center ">
           <h1 className="text-3xl md:text-3xl lg:text-6xl font-semibold max-w-7xl mx-auto mt-6 relative z-20 py-6 text-white">
-            A collaborative IDE that improves teamwork at <br /> at{" "}
+            A collaborative IDE that improves teamwork at <br /> at
             <span className="mt-2">
               <Cover>warp speed</Cover>
             </span>
