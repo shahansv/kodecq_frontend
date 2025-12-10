@@ -10,16 +10,17 @@ import Cover from "../components/ui/Cover";
 import ScrollButton from "@/components/ScrollButton";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { ShootingStars } from "@/components/ui/ShootingStars";
 
 const Home = () => {
   const words = ["faster", "smarter", "better", "cleaner", "together"];
   return (
     <>
       <Header />
-      <section className="h-200 md:h-180 relative w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
+      <section className="h-screen md:h-180 relative w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
         <div className="w-full absolute inset-0 h-screen">
           <SparklesCore
-            id="tsparticlesfullpagne"
+            id="tsparticlesfullpagn"
             background="transparent"
             minSize={0.6}
             maxSize={1.4}
@@ -27,6 +28,7 @@ const Home = () => {
             className="w-full h-full"
             particleColor="#53EAFD"
           />
+          <ShootingStars />
         </div>
         <h1 className="md:text-7xl text-3xl lg:text-6xl font-bold text-center text-white leading-tight relative z-20 mb-2">
           Build
