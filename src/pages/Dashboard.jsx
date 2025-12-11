@@ -50,7 +50,7 @@ const Dashboard = () => {
             </motion.span>
           </Link>
 
-          <div className="mt-8 flex flex-col gap-2">
+          <div className="mt-8 flex flex-col gap-2 ml-1">
             <Link
               to="/dashboard"
               className="flex items-center justify-start gap-2 group/sidebar py-2"
@@ -114,7 +114,10 @@ const Dashboard = () => {
               </motion.span>
             </Link>
 
-            <button className="flex items-center justify-start gap-2 group/sidebar py-2">
+            <button
+              className="flex items-center justify-start gap-2 group/sidebar py-2 cursor-pointer"
+              onClick={() => document.getElementById("my_modal_1").showModal()}
+            >
               <IconLogout2 className="h-5 w-5 shrink-0 text-neutral-200" />
               <motion.span
                 animate={{
@@ -285,10 +288,27 @@ const Dashboard = () => {
           </AnimatePresence>
         </div>
 
-        <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border p-2 md:p-10 border-neutral-700 bg-neutral-900">
+        <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-700 bg-neutral-900">
           <Outlet />
         </div>
       </div>
+      <dialog id="my_modal_1" className="modal">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg">Confirm logout</h3>
+          <p className="py-4">Are you sure you want to log out?</p>
+          <div className="modal-action">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn rounded-lg bg-zinc-600/30 border border-slate-900 hover:bg-slate-800 px-5">
+                No
+              </button>
+            </form>
+            <button className="btn rounded-lg bg-red-500/30 border border-red-500 hover:bg-red-500 px-5">
+              Yes
+            </button>
+          </div>
+        </div>
+      </dialog>
     </>
   );
 };

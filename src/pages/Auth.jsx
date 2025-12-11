@@ -8,6 +8,7 @@ import {
   IconBrandGoogleFilled,
 } from "@tabler/icons-react";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Auth = () => {
   return (
@@ -32,7 +33,10 @@ const Auth = () => {
         ]}
       >
         <section className="bg-neutral-950  flex flex-col items-center  w-100 md:w-100 rounded-2xl p-10 z-50">
-          <h1 className="text-3xl font-bold mb-12">Register</h1>
+          <h1 className="text-3xl font-bold mb-1">Create an account</h1>
+          <p className="mb-10 text-xs text-neutral-400">
+            Enter your personal data to create your account
+          </p>
 
           <label
             htmlFor="username"
@@ -76,7 +80,7 @@ const Auth = () => {
 
           <div className="my-6 h-px w-full bg-linear-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
-          <div className="flex flex-col space-y-4 w-full mb-4">
+          <div className="flex flex-col space-y-4 w-full">
             <button
               className="group/btn shadow-input relative flex h-10 w-full items-center justify-center space-x-2 rounded-md px-4 font-medium text-black bg-zinc-900 hover:bg-neutral-800 cursor-pointer"
               type="submit"
@@ -95,6 +99,13 @@ const Auth = () => {
                 Sign up with Google
               </span>
             </button>
+
+            <p className="text-xs text-neutral-400 text-center mt-3">
+              Already have an account?
+              <Link to={"/login"} className="text-cyan-300 hover:text-cyan-500 mx-1">
+                Sign in
+              </Link>
+            </p>
           </div>
         </section>
       </NoiseBackground>
