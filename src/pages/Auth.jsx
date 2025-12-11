@@ -74,9 +74,11 @@ const Auth = () => {
               placeholder="Enter your email"
             />
           </label>
-          <Button className="bg-zinc-900 border border-neutral-300/40 font-bold hover:bg-neutral-200 hover:text-neutral-800 hover:scale-105 cursor-pointer my-5 active:scale-100 w-full">
-            Register
-          </Button>
+          <Link to={"/dashboard"} className="w-full">
+            <Button className="bg-zinc-900 border border-neutral-300/40 font-bold hover:bg-neutral-200 hover:text-neutral-800 hover:scale-105 cursor-pointer my-5 active:scale-100 w-full">
+              Register
+            </Button>
+          </Link>
 
           <div className="my-6 h-px w-full bg-linear-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
 
@@ -102,7 +104,10 @@ const Auth = () => {
 
             <p className="text-xs text-neutral-400 text-center mt-3">
               Already have an account?
-              <Link to={"/login"} className="text-cyan-300 hover:text-cyan-500 mx-1">
+              <Link
+                to={"/login"}
+                className="text-cyan-300 hover:text-cyan-500 mx-1"
+              >
                 Sign in
               </Link>
             </p>
