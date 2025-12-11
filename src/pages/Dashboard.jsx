@@ -255,7 +255,10 @@ const Dashboard = () => {
 
                     <button
                       className="flex items-center justify-start gap-2 group/sidebar py-2"
-                      onClick={() => setOpen(false)}
+                      // onClick={() => setOpen(false)}
+                      onClick={() =>
+                        document.getElementById("my_modal_1").showModal()
+                      }
                     >
                       <IconLogout2 className="h-5 w-5 shrink-0 text-neutral-200" />
                       <span className="text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block p-0 m-0">
