@@ -20,13 +20,13 @@ const Dashboard = () => {
     <>
       <div
         className={cn(
-          "mx-auto flex w-full flex-1 flex-col overflow-hidden md:flex-row border-neutral-700 bg-neutral-800",
+          "mx-auto flex w-full flex-1 flex-col overflow-hidden md:flex-row border-neutral-700 bg-neutral-900",
           "h-screen"
         )}
       >
         <motion.div
           className={cn(
-            "h-full px-4 py-4 hidden md:flex md:flex-col bg-neutral-800 w-[300px] shrink-0"
+            "h-full px-4 py-4 hidden md:flex md:flex-col bg-neutral-900 w-[300px] shrink-0"
           )}
           animate={{
             width: animate ? (open ? "300px" : "65px") : "300px",
@@ -291,7 +291,7 @@ const Dashboard = () => {
           </AnimatePresence>
         </div>
 
-        <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-700 bg-neutral-900">
+        <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-700 bg-neutral-900 overflow-hidden">
           <Outlet />
         </div>
       </div>

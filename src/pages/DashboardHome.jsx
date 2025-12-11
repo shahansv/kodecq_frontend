@@ -1,7 +1,42 @@
+import { Spotlight } from "@/components/ui/Spotlight";
+import { IconPlus } from "@tabler/icons-react";
 import React from "react";
 
 const DashboardHome = () => {
-  return <div>DashboardHome</div>;
+  return (
+    <div className="bg-zinc-950 min-h-screen w-full flex flex-col items-center md:justify-center rounded-md antialiased bg-grid-white/[0.02] relative overflow-hidden">
+      <Spotlight />
+
+      <div className="h-1/3 flex flex-col justify-center md:w-240 mx-auto">
+        <h1 className="text-3xl md:text-6xl font-semibold text-center mt-20">
+          Real time coding collaboration for everyone
+        </h1>
+        <p className="text-center text-neutral-400 text-md md:text-lg font-medium mt-2 md:mt-5 px-5 md:px-32">
+          Code together, communicate instantly, and build from anywhere with
+          Kodecq.dev
+        </p>
+      </div>
+
+      <div className="h-1/3 flex flex-col md:flex-row md:flex-wrap justify-center items-center gap-6 md:gap-4">
+        <button className="border border-blue-700 bg-blue-600/45 px-4 py-2 rounded-lg font-semibold flex gap-2 hover:bg-blue-600/80">
+          <IconPlus /> New Workspace
+        </button>
+
+        <div className="border w-11/12 border-neutral-900 md:hidden" />
+
+        <div className="flex items-center">
+          <input
+            type="text"
+            className="bg-neutral-800 px-3 py-2 rounded-lg w-75 md:w-60 placeholder:text-neutral-500 text-neutral-300 focus:outline-blue-500 focus:outline-1"
+            placeholder="Enter a room code"
+          />
+          <button className="font-semibold text-blue-400 hover:text-blue-500 px-3 py-2 rounded-lg md:ml-2">
+            Join
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default DashboardHome;
