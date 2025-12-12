@@ -291,12 +291,12 @@ const Dashboard = () => {
           </AnimatePresence>
         </div>
 
-        <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-700 bg-neutral-900 overflow-hidden">
+        <div className="flex h-full w-full flex-1 flex-col gap-2 rounded-tl-2xl border border-neutral-700 bg-zinc-950 overflow-y-auto">
           <Outlet />
         </div>
       </div>
       <dialog id="my_modal_1" className="modal">
-        <div className="modal-box">
+        <div className="modal-box rounded-2xl">
           <h3 className="font-bold text-lg">Confirm logout</h3>
           <p className="py-4">Are you sure you want to log out?</p>
           <div className="modal-action">

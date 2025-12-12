@@ -3,8 +3,6 @@ import { NoiseBackground } from "@/components/ui/NoiseBackground";
 import { ShootingStars } from "@/components/ui/ShootingStars";
 import SparklesCore from "@/components/ui/SparklesCore";
 import {
-  IconBrandGithub,
-  IconBrandGoogle,
   IconBrandGoogleFilled,
 } from "@tabler/icons-react";
 import React from "react";
@@ -39,17 +37,18 @@ const Auth = () => {
           </p>
 
           <label
-            htmlFor="username"
+            htmlFor="email"
             className="flex flex-col w-full text-zinc-500 my-2 text-sm"
           >
-            Username
+            Email
             <input
-              type="text"
-              id="username"
+              type="email"
+              id="email"
               className="bg-neutral-900 text-neutral-300 rounded-lg px-2 py-3 mt-1 focus:outline-sky-500 outline-1 outline-neutral-800 font-semibold tracking-wide"
-              placeholder="Enter your username"
+              placeholder="Enter your email"
             />
           </label>
+
           <label
             htmlFor="password"
             className="flex flex-col w-full text-zinc-500 my-2 text-sm"
@@ -62,36 +61,16 @@ const Auth = () => {
               placeholder="Enter your password"
             />
           </label>
-          <label
-            htmlFor="email"
-            className="flex flex-col w-full text-zinc-500 my-2 text-sm"
-          >
-            Email
-            <input
-              type="email"
-              id="email"
-              className="bg-neutral-900 text-neutral-300 rounded-lg px-2 py-3 mt-1 focus:outline-sky-500 outline-1 outline-neutral-800 font-semibold tracking-wide"
-              placeholder="Enter your email"
-            />
-          </label>
+
           <Link to={"/dashboard"} className="w-full">
             <Button className="bg-zinc-900 border border-neutral-300/40 font-bold hover:bg-neutral-200 hover:text-neutral-800 hover:scale-105 cursor-pointer my-5 active:scale-100 w-full">
               Register
             </Button>
           </Link>
 
-          <div className="my-6 h-px w-full bg-linear-to-r from-transparent via-neutral-300 to-transparent dark:via-neutral-700" />
+          <div className="my-6 h-px w-full bg-linear-to-r from-transparent via-neutral-500 to-transparent dark:via-neutral-700" />
 
           <div className="flex flex-col space-y-4 w-full">
-            <button
-              className="group/btn shadow-input relative flex h-10 w-full items-center justify-center space-x-2 rounded-md px-4 font-medium text-black bg-zinc-900 hover:bg-neutral-800 cursor-pointer"
-              type="submit"
-            >
-              <IconBrandGithub className="h-5 w-5 text-neutral-300" />
-              <span className="text-sm text-neutral-300">
-                Sign up with GitHub
-              </span>
-            </button>
             <button
               className="group/btn shadow-input relative flex h-10 w-full items-center justify-center space-x-2 rounded-md px-4 font-medium text-black bg-zinc-900 hover:bg-neutral-800 cursor-pointer"
               type="submit"
@@ -106,7 +85,7 @@ const Auth = () => {
               Already have an account?
               <Link
                 to={"/login"}
-                className="text-cyan-300 hover:text-cyan-500 mx-1"
+                className="text-cyan-400 hover:text-cyan-500 mx-1 font-semibold"
               >
                 Sign in
               </Link>

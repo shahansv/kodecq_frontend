@@ -4,7 +4,7 @@ import React from "react";
 
 const DashboardHome = () => {
   return (
-    <div className="bg-zinc-950 min-h-screen w-full flex flex-col items-center md:justify-center rounded-md antialiased bg-grid-white/[0.02] relative overflow-hidden">
+    <div className="bg-zinc-950 h-screen w-full flex flex-col items-center md:justify-center rounded-md antialiased bg-grid-white/[0.02] relative overflow-hidden">
       <Spotlight />
 
       <div className="h-1/3 flex flex-col justify-center md:w-240 mx-auto">
@@ -18,7 +18,7 @@ const DashboardHome = () => {
       </div>
 
       <div className="h-1/3 flex flex-col md:flex-row md:flex-wrap justify-center items-center gap-6 md:gap-4">
-        <button className="border border-blue-700 bg-blue-600/45 px-4 py-2 rounded-lg font-semibold flex gap-2 hover:bg-blue-600/80">
+        <button className="border border-blue-700 bg-blue-600/45 px-4 py-2 rounded-lg font-semibold flex gap-2 hover:bg-blue-600/80 cursor-pointer">
           <IconPlus /> New Workspace
         </button>
 
@@ -30,7 +30,7 @@ const DashboardHome = () => {
             className="bg-neutral-800 px-3 py-2 rounded-lg w-75 md:w-60 placeholder:text-neutral-500 text-neutral-300 focus:outline-blue-500 focus:outline-1"
             placeholder="Enter a room code"
           />
-          <button className="font-semibold text-blue-400 hover:text-blue-500 px-3 py-2 rounded-lg md:ml-2">
+          <button className="font-semibold text-blue-400 hover:text-blue-500 px-3 py-2 rounded-lg md:ml-2 cursor-pointer">
             Join
           </button>
         </div>
