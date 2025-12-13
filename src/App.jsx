@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import Questions from "./pages/Questions";
 import Profile from "./pages/Profile";
 import DashboardHome from "./pages/DashboardHome";
+import Workspace from "./pages/Workspace";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path="questions" element={<Questions />} />
           <Route path="profile" element={<Profile />} />
         </Route>
+        <Route path="/workspace" element={<Workspace />} />
       </Routes>
     </>
   );
