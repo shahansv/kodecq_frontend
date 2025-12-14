@@ -201,7 +201,7 @@ const Auth = ({ register }) => {
 
           <div className="my-6 h-px w-full bg-linear-to-r from-transparent via-neutral-500 to-transparent dark:via-neutral-700" />
 
-          <div className="flex flex-col space-y-4 w-full">
+          <div className="w-full">
             <GoogleLogin
               onSuccess={(credentialResponse) => {
                 decodeFunction(credentialResponse);
