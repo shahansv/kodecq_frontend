@@ -4,11 +4,13 @@ import { ShootingStars } from "@/components/ui/ShootingStars";
 import SparklesCore from "@/components/ui/SparklesCore";
 import { googleLoginAPI, loginUser, registerUser } from "@/services/allAPI";
 import { GoogleLogin } from "@react-oauth/google";
-import { IconBrandGoogleFilled } from "@tabler/icons-react";
+
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
+import { useGoogleLogin } from "@react-oauth/google";
+import { IconBrandGoogleFilled } from "@tabler/icons-react";
 
 const Auth = ({ register }) => {
   const navigate = useNavigate();
@@ -77,6 +79,43 @@ const Auth = ({ register }) => {
       }
     }
   };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      try {
+        const userInfo = await fetch(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          {
+            headers: {
+              Authorization: `Bearer ${tokenResponse.access_token}`,
+            },
+          }
+        ).then((res) => res.json());
+
+        const payload = {
+          name: userInfo.name,
+          email: userInfo.email,
+          profilePhoto: userInfo.picture,
+        };
+
+        const apiResponse = await googleLoginAPI(payload);
+
+        if (apiResponse.status === 200 || apiResponse.status === 201) {
+          toast.success(apiResponse.data.message);
+          localStorage.setItem("token", apiResponse.data.token);
+          navigate("/dashboard");
+        } else {
+          toast.error("Google login failed");
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("Google login failed");
+      }
+    },
+    onError: () => {
+      toast.error("Google login cancelled");
+    },
+  });
 
   const decodeFunction = async (credentialResponse) => {
     let decodedData = jwtDecode(credentialResponse.credential);
@@ -203,11 +242,16 @@ const Auth = ({ register }) => {
 
           <div className="w-full flex flex-col items-center">
             <div className="w-full max-w-sm">
-              <GoogleLogin
-                width="100%"
-                onSuccess={decodeFunction}
-                onError={() => console.log("Login Failed")}
-              />
+              <button
+                onClick={() => googleLogin()}
+                type="button"
+                className="group/btn shadow-input relative flex h-10 w-full items-center justify-center space-x-2 rounded-md px-4 font-medium text-black bg-zinc-900 hover:bg-neutral-800 cursor-pointer active:scale-95 transition"
+              >
+                <IconBrandGoogleFilled className="h-5 w-5 text-neutral-300" />
+                <span className="text-sm text-neutral-300">
+                  Continue with Google
+                </span>
+              </button>
             </div>
 
             {register ? (
