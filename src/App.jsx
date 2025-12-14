@@ -21,7 +21,7 @@ const App = () => {
           <Route path="questions" element={<Questions />} />
           <Route path="profile" element={<Profile />} />
         </Route>
-        <Route path="/workspace" element={<Workspace />} />
+        <Route path="/workspace/:workspaceID" element={<Workspace />} />
       </Routes>
 
       <ToastContainer
