@@ -26,7 +26,7 @@ const Auth = ({ register }) => {
         userData.email == "" ||
         userData.password == ""
       ) {
-        toast.error("Please fill the form");
+        toast.error("Please fill out the form");
       } else {
         let apiResponse = await registerUser(userData);
         if (apiResponse.status == 201) {
@@ -44,13 +44,13 @@ const Auth = ({ register }) => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Somthing went wrong");
+      toast.error("Something went wrong");
     }
   };
 
   const onClickLogin = async () => {
     if (userData.email == "" || userData.password == "") {
-      toast.error("Please fill the form");
+      toast.error("Please fill out the form");
     } else {
       try {
         let reqBody = {
@@ -73,7 +73,7 @@ const Auth = ({ register }) => {
         }
       } catch (error) {
         console.log(error);
-        toast.error("Somthing went wrong");
+        toast.error("Something went wrong");
       }
     }
   };
@@ -91,7 +91,7 @@ const Auth = ({ register }) => {
       localStorage.setItem("token", apiResponse.data.token);
       navigate("/dashboard");
     } else {
-      toast.error("Something went wrong in server! ");
+      toast.error("Something went wrong on the server");
     }
   };
 
