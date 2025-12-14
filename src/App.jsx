@@ -7,6 +7,7 @@ import Questions from "./pages/Questions";
 import Profile from "./pages/Profile";
 import DashboardHome from "./pages/DashboardHome";
 import Workspace from "./pages/Workspace";
+import { Slide, ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
@@ -14,7 +15,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Auth />} />
-        <Route path="/register" element={<Auth />} />
+        <Route path="/register" element={<Auth register={true} />} />
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<DashboardHome />} />
           <Route path="questions" element={<Questions />} />
@@ -22,6 +23,20 @@ const App = () => {
         </Route>
         <Route path="/workspace" element={<Workspace />} />
       </Routes>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+        transition={Slide}
+      />
     </>
   );
 };
