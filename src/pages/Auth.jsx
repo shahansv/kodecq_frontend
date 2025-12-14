@@ -201,15 +201,14 @@ const Auth = ({ register }) => {
 
           <div className="my-6 h-px w-full bg-linear-to-r from-transparent via-neutral-500 to-transparent dark:via-neutral-700" />
 
-          <div className="w-full">
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                decodeFunction(credentialResponse);
-              }}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-            />
+          <div className="w-full flex flex-col items-center">
+            <div className="w-full max-w-sm">
+              <GoogleLogin
+                width="100%"
+                onSuccess={decodeFunction}
+                onError={() => console.log("Login Failed")}
+              />
+            </div>
 
             {register ? (
               <>
