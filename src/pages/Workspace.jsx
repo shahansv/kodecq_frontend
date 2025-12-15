@@ -115,9 +115,9 @@ const Workspace = () => {
         <ResizablePanel defaultSize={40} className="bg-zinc-900">
           <ResizablePanelGroup direction="vertical">
             <ResizablePanel defaultSize={55}>
-              <div className="p-6">
+              <div className="p-6 h-full">
                 <div
-                  className={`font-semibold ${
+                  className={`font-semibold h-full overflow-y-auto ${
                     isError
                       ? "text-red-500"
                       : output
