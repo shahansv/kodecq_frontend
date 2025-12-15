@@ -1,3 +1,14 @@
+import javaScriptLogo from "../src/assets/JavaScript.svg";
+import typeScriptLogo from "../src/assets/TypeScript.svg";
+import pythonLogo from "@/assets/Python.svg";
+import javaLogo from "@/assets/Java.svg";
+import cLogo from "@/assets/C.svg";
+import cppLogo from "@/assets/Cpp.svg";
+import csharpLogo from "@/assets/CSharp.svg";
+import goLogo from "@/assets/Go.svg";
+import phpLogo from "@/assets/PHP.svg";
+import rustLogo from "@/assets/Rust.svg";
+
 export const LANGUAGE_VERSIONS = {
   javascript: "18.15.0",
   typescript: "5.0.3",
@@ -9,6 +20,32 @@ export const LANGUAGE_VERSIONS = {
   go: "1.16.2",
   php: "8.2.3",
   rust: "1.68.2",
+};
+
+export const LANGUAGE_DATA = {
+  javascript: { label: "JavaScript", logo: javaScriptLogo },
+  typescript: { label: "TypeScript", logo: typeScriptLogo },
+  python: { label: "Python", logo: pythonLogo },
+  java: { label: "Java", logo: javaLogo },
+  c: { label: "C", logo: cLogo },
+  cpp: { label: "C++", logo: cppLogo },
+  csharp: { label: "C#", logo: csharpLogo },
+  go: { label: "Go", logo: goLogo },
+  php: { label: "PHP", logo: phpLogo },
+  rust: { label: "Rust", logo: rustLogo },
+};
+
+export const LANGUAGE_EXTENSIONS = {
+  javascript: "js",
+  typescript: "ts",
+  python: "py",
+  java: "java",
+  c: "c",
+  cpp: "cpp",
+  csharp: "cs",
+  go: "go",
+  php: "php",
+  rust: "rs",
 };
 
 export const CODE_SNIPPETS = {

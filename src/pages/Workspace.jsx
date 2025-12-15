@@ -5,9 +5,14 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/Resizable";
 import { Button } from "@/components/ui/StatefulButton";
-import { CODE_SNIPPETS, LANGUAGE_VERSIONS } from "@/constants";
+import {
+  CODE_SNIPPETS,
+  LANGUAGE_EXTENSIONS,
+  LANGUAGE_VERSIONS,
+} from "@/constants";
 import { executeCode } from "@/services/allAPI";
 import { Editor } from "@monaco-editor/react";
+import { Download } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -53,8 +58,24 @@ const Workspace = () => {
     }
   };
 
+  function downloadCode(code, language) {
+    const extension = LANGUAGE_EXTENSIONS[language] || "txt";
+
+    const blob = new Blob([code], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `index.${extension}`;
+    document.body.appendChild(a);
+    a.click();
+
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
   return (
-    <div className="h-screen bg-zinc-950">
+    <div className="h-screen bg-zinc-900">
       <ResizablePanelGroup direction="horizontal" className="rounded-lg">
         <ResizablePanel defaultSize={60}>
           <div className="p-2 flex justify-between">
@@ -62,13 +83,22 @@ const Workspace = () => {
               language={language}
               onSelectLanguage={onSelectLanguage}
             />
-           
-            <Button
-              className="bg-blue-500/20 px-3 py-1 rounded-md border border-blue-500 text-sm hover:bg-blue-500 active:scale-95 font-semibold text-blue-100 h-8" 
-              onClick={runCode}
-            >
-              Run code
-            </Button>
+
+            <div className="flex">
+              <button
+                className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-200 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 mx-2 flex items-center cursor-pointer"
+                onClick={() => downloadCode(code, language)}
+              >
+                <Download className="h-4" />
+              </button>
+
+              <Button
+                className="bg-blue-500/20 px-3 py-1 rounded-md border border-blue-500 text-sm hover:bg-blue-500 active:scale-95 font-semibold text-blue-100 h-8"
+                onClick={runCode}
+              >
+                Run code
+              </Button>
+            </div>
           </div>
 
           <Editor
