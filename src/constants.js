@@ -1,13 +1,13 @@
 import javaScriptLogo from "../src/assets/JavaScript.svg";
 import typeScriptLogo from "../src/assets/TypeScript.svg";
-import pythonLogo from "@/assets/Python.svg";
-import javaLogo from "@/assets/Java.svg";
-import cLogo from "@/assets/C.svg";
-import cppLogo from "@/assets/Cpp.svg";
-import csharpLogo from "@/assets/CSharp.svg";
-import goLogo from "@/assets/Go.svg";
-import phpLogo from "@/assets/PHP.svg";
-import rustLogo from "@/assets/Rust.svg";
+import pythonLogo from "../src/assets/Python.svg";
+import javaLogo from "../src/assets/Java.svg";
+import cLogo from "../src/assets/C.svg";
+import cppLogo from "../src/assets/Cpp.svg";
+import csharpLogo from "../src/assets/CSharp.svg";
+import goLogo from "../src/assets/Go.svg";
+import phpLogo from "../src/assets/PHP.svg";
+import rustLogo from "../src/assets/Rust.svg";
 
 export const LANGUAGE_VERSIONS = {
   javascript: "18.15.0",

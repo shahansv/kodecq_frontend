@@ -9,7 +9,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "./ui/DropdownMenu";
-import { LANGUAGE_DATA, LANGUAGE_VERSIONS } from "@/constants";
+import { LANGUAGE_DATA, LANGUAGE_VERSIONS } from "../constants";
 import { ChevronDown } from "lucide-react";
 
 const languages = Object.entries(LANGUAGE_VERSIONS);
@@ -18,7 +18,6 @@ export function DropdownMenuRadioGroupDemo({ language, onSelectLanguage }) {
   const [position, setPosition] = React.useState("bottom");
 
   const data = LANGUAGE_DATA[language];
-  const version = LANGUAGE_VERSIONS[language];
 
   return (
     <DropdownMenu>

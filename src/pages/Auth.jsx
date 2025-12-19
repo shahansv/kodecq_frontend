@@ -1,14 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { NoiseBackground } from "@/components/ui/NoiseBackground";
-import { ShootingStars } from "@/components/ui/ShootingStars";
-import SparklesCore from "@/components/ui/SparklesCore";
-import { googleLoginAPI, loginUser, registerUser } from "@/services/allAPI";
-import { GoogleLogin } from "@react-oauth/google";
-
+import { Button } from "../components/ui/button";
+import { NoiseBackground } from "../components/ui/NoiseBackground";
+import { ShootingStars } from "../components/ui/ShootingStars";
+import SparklesCore from "../components/ui/SparklesCore";
+import {
+  getGoogleUserInfo,
+  googleLoginAPI,
+  loginUser,
+  registerUser,
+} from "../services/allAPI";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { jwtDecode } from "jwt-decode";
 import { useGoogleLogin } from "@react-oauth/google";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
 
@@ -28,7 +30,7 @@ const Auth = ({ register }) => {
         userData.email == "" ||
         userData.password == ""
       ) {
-        toast.error("Please fill out the form");
+        toast.error("Please fill in all required fields");
       } else {
         let apiResponse = await registerUser(userData);
         if (apiResponse.status == 201) {
@@ -41,18 +43,17 @@ const Auth = ({ register }) => {
           navigate("/login");
         } else {
           toast.error(apiResponse.data.message);
-          console.log(apiResponse);
         }
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
+      toast.error("Something went wrong. Try again");
     }
   };
 
   const onClickLogin = async () => {
     if (userData.email == "" || userData.password == "") {
-      toast.error("Please fill out the form");
+      toast.error("Please fill in all required fields");
     } else {
       try {
         let reqBody = {
@@ -71,11 +72,11 @@ const Auth = ({ register }) => {
           });
           navigate("/dashboard");
         } else {
-          toast.error(apiResponse.response.data.message);
+          toast.error(apiResponse.data.message);
         }
       } catch (error) {
         console.log(error);
-        toast.error("Something went wrong");
+        toast.error("Something went wrong. Try again");
       }
     }
   };
@@ -83,29 +84,31 @@ const Auth = ({ register }) => {
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        const userInfo = await fetch(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
-          {
-            headers: {
-              Authorization: `Bearer ${tokenResponse.access_token}`,
-            },
-          }
-        ).then((res) => res.json());
-
-        const payload = {
-          name: userInfo.name,
-          email: userInfo.email,
-          profilePhoto: userInfo.picture,
+        let reqHeader = {
+          Authorization: `Bearer ${tokenResponse.access_token}`,
         };
 
-        const apiResponse = await googleLoginAPI(payload);
+        let GoogleApiResponse = await getGoogleUserInfo(reqHeader);
 
-        if (apiResponse.status === 200 || apiResponse.status === 201) {
-          toast.success(apiResponse.data.message);
-          localStorage.setItem("token", apiResponse.data.token);
-          navigate("/dashboard");
+        if (GoogleApiResponse.status == 200) {
+          let userInfo = GoogleApiResponse.data;
+          let payload = {
+            name: userInfo.name,
+            email: userInfo.email,
+            profilePhoto: userInfo.picture,
+          };
+
+          let apiResponse = await googleLoginAPI(payload);
+
+          if (apiResponse.status === 200 || apiResponse.status === 201) {
+            toast.success(apiResponse.data.message);
+            localStorage.setItem("token", apiResponse.data.token);
+            navigate("/dashboard");
+          } else {
+            toast.error("Google login failed");
+          }
         } else {
-          toast.error("Google login failed");
+          toast.error("Google user info failed to fetch");
         }
       } catch (error) {
         console.error(error);
@@ -113,26 +116,9 @@ const Auth = ({ register }) => {
       }
     },
     onError: () => {
-      toast.error("Google login cancelled");
+      toast.error("Google login failed");
     },
   });
-
-  const decodeFunction = async (credentialResponse) => {
-    let decodedData = jwtDecode(credentialResponse.credential);
-    let payLoad = {
-      name: decodedData.name,
-      email: decodedData.email,
-      profilePhoto: decodedData.picture,
-    };
-    let apiResponse = await googleLoginAPI(payLoad);
-    if (apiResponse.status == 201 || apiResponse.status == 200) {
-      toast.success(apiResponse.data.message);
-      localStorage.setItem("token", apiResponse.data.token);
-      navigate("/dashboard");
-    } else {
-      toast.error("Something went wrong on the server");
-    }
-  };
 
   return (
     <div className="h-screen relative w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">

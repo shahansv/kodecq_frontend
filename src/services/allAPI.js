@@ -1,5 +1,5 @@
 import axiosConfig from "./axiosConfig";
-import { baseURL, pistonAPI } from "./baseURL";
+import { baseURL, googleAPI, pistonAPI } from "./baseURL";
 
 export const registerUser = async (reqBody) => {
   return await axiosConfig("post", `${baseURL}/register`, reqBody);
@@ -15,4 +15,8 @@ export const googleLoginAPI = async (reqBody) => {
 
 export const executeCode = async (reqBody) => {
   return await axiosConfig("post", `${pistonAPI}/execute`, reqBody);
+};
+
+export const getGoogleUserInfo = async (reqHeader) => {
+  return await axiosConfig("get", `${googleAPI}`, "", reqHeader);
 };

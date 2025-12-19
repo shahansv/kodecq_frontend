@@ -51,7 +51,13 @@ const Profile = () => {
           <div className="bg-neutral-800 rounded-xl p-3">
             <h2>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid,
-              voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit quam laboriosam, est molestiae dolorem repellat eius numquam provident molestias ea, possimus voluptatibus ratione temporibus. Cupiditate quo, sit fugit possimus aut atque blanditiis, distinctio perspiciatis dignissimos rerum voluptatum dolor dolorem cumque modi qui libero, nostrum nam quos reprehenderit veniam sint iste.
+              voluptate. Lorem ipsum dolor sit amet consectetur adipisicing
+              elit. Reprehenderit quam laboriosam, est molestiae dolorem
+              repellat eius numquam provident molestias ea, possimus
+              voluptatibus ratione temporibus. Cupiditate quo, sit fugit
+              possimus aut atque blanditiis, distinctio perspiciatis dignissimos
+              rerum voluptatum dolor dolorem cumque modi qui libero, nostrum nam
+              quos reprehenderit veniam sint iste.
             </h2>
           </div>
           <div className="text-end mt-3">
@@ -94,7 +100,10 @@ const Profile = () => {
           <div className="bg-zinc-800 rounded-xl p-3">
             <h2>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aliquid,
-              voluptate. Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam, natus sit corrupti vitae doloribus sapiente possimus velit earum architecto hic illo facere aliquid rerum! Qui nam aliquid excepturi consequuntur minus?
+              voluptate. Lorem ipsum dolor sit amet consectetur adipisicing
+              elit. Magnam, natus sit corrupti vitae doloribus sapiente possimus
+              velit earum architecto hic illo facere aliquid rerum! Qui nam
+              aliquid excepturi consequuntur minus?
             </h2>
           </div>
           <div className="text-end mt-3">

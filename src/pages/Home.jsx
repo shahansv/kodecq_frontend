@@ -4,13 +4,12 @@ import { FlipWords } from "../components/ui/FlipWords";
 import { HoverBorderGradient } from "../components/ui/HoverBorderGradient";
 import { Link } from "react-router-dom";
 import AutoIDE from "../components/ui/AutoIDE";
-import { GlowingEffect } from "../components/ui/GlowingEffect";
 import GlowingEffectDemo from "../components/ui/BentoGrid";
 import Cover from "../components/ui/Cover";
-import ScrollButton from "@/components/ScrollButton";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import { ShootingStars } from "@/components/ui/ShootingStars";
+import ScrollButton from "../components/ScrollButton";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import { ShootingStars } from "../components/ui/ShootingStars";
 
 const Home = () => {
   const words = ["faster", "smarter", "better", "cleaner", "together"];

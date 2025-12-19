@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link, Outlet } from "react-router-dom";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 import {
   IconBrandTabler,
   IconMenu2,
@@ -255,7 +255,6 @@ const Dashboard = () => {
 
                     <button
                       className="flex items-center justify-start gap-2 group/sidebar py-2"
-                      // onClick={() => setOpen(false)}
                       onClick={() =>
                         document.getElementById("my_modal_1").showModal()
                       }
@@ -301,7 +300,6 @@ const Dashboard = () => {
           <p className="py-4">Are you sure you want to log out?</p>
           <div className="modal-action">
             <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
               <button className="btn rounded-lg bg-zinc-600/30 border border-slate-900 hover:bg-slate-800 px-5">
                 No
               </button>

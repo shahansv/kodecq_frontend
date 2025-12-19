@@ -1,16 +1,16 @@
-import DropdownMenuRadioGroupDemo from "@/components/SelectLanguage";
+import DropdownMenuRadioGroupDemo from "../components/SelectLanguage";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-} from "@/components/ui/Resizable";
-import { Button } from "@/components/ui/StatefulButton";
+} from "../components/ui/Resizable";
+import { Button } from "../components/ui/StatefulButton";
 import {
   CODE_SNIPPETS,
   LANGUAGE_EXTENSIONS,
   LANGUAGE_VERSIONS,
 } from "@/constants";
-import { executeCode } from "@/services/allAPI";
+import { executeCode } from "../services/allAPI";
 import { Editor } from "@monaco-editor/react";
 import { Download } from "lucide-react";
 import React, { useEffect, useState } from "react";
