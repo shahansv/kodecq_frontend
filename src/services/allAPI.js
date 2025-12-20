@@ -10,7 +10,7 @@ export const loginUser = async (reqBody) => {
 };
 
 export const googleLoginAPI = async (reqBody) => {
-  return await axiosConfig("post", baseURL + "/googleLogin", reqBody);
+  return await axiosConfig("post", `${baseURL}/googleLogin`, reqBody);
 };
 
 export const executeCode = async (reqBody) => {
@@ -19,4 +19,12 @@ export const executeCode = async (reqBody) => {
 
 export const getGoogleUserInfo = async (reqHeader) => {
   return await axiosConfig("get", `${googleAPI}`, "", reqHeader);
+};
+
+export const createWorkspace = async () => {
+  return await axiosConfig("post", `${baseURL}/createWorkspace`);
+};
+
+export const checkWorkspaceExist = async (code) => {
+  return await axiosConfig("get", `${baseURL}/checkWorkspaceExist/${code}`);
 };

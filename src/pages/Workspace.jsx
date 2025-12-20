@@ -12,9 +12,15 @@ import {
 } from "@/constants";
 import { executeCode } from "../services/allAPI";
 import { Editor } from "@monaco-editor/react";
-import { Download } from "lucide-react";
+import { Copy, Download } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useParams } from "react-router-dom";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../components/ui/Tooltip";
 
 const Workspace = () => {
   const [language, setLanguage] = useState("javascript");
@@ -28,6 +34,18 @@ const Workspace = () => {
 
   const onSelectLanguage = (lang) => {
     setLanguage(lang);
+  };
+
+  const { workspaceID } = useParams();
+  console.log(workspaceID);
+
+  const copyWorkspaceCode = async () => {
+    try {
+      await navigator.clipboard.writeText(workspaceID);
+      toast.success("Workspace code copied!");
+    } catch (err) {
+      toast.error("Failed to copy");
+    }
   };
 
   const runCode = async () => {
@@ -58,7 +76,7 @@ const Workspace = () => {
     }
   };
 
-  function downloadCode(code, language) {
+  const downloadCode = (code, language) => {
     const extension = LANGUAGE_EXTENSIONS[language] || "txt";
 
     const blob = new Blob([code], { type: "text/plain" });
@@ -72,7 +90,7 @@ const Workspace = () => {
 
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-  }
+  };
 
   return (
     <div className="h-screen bg-zinc-900">
@@ -85,12 +103,33 @@ const Workspace = () => {
             />
 
             <div className="flex">
-              <button
-                className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-200 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 mx-2 flex items-center cursor-pointer"
-                onClick={() => downloadCode(code, language)}
-              >
-                <Download className="h-4" />
-              </button>
+              <Tooltip>
+                <TooltipTrigger>
+                  <button
+                    className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-200 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 flex items-center cursor-pointer"
+                    onClick={copyWorkspaceCode}
+                  >
+                    <Copy className="h-4" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Copy Workspace code</p>
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger>
+                  <button
+                    className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-200 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 mx-2 flex items-center cursor-pointer"
+                    onClick={() => downloadCode(code, language)}
+                  >
+                    <Download className="h-4" />
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Download source code</p>
+                </TooltipContent>
+              </Tooltip>
 
               <Button
                 className="bg-blue-500/20 px-3 py-1 rounded-md border border-blue-500 text-sm hover:bg-blue-500 active:scale-95 font-semibold text-blue-100 h-8"
