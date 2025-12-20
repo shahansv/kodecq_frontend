@@ -15,7 +15,7 @@ import { Editor } from "@monaco-editor/react";
 import { Copy, Download } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Tooltip,
   TooltipContent,
@@ -27,6 +27,15 @@ const Workspace = () => {
   const [code, setCode] = useState("");
   const [output, setOutput] = useState(null);
   const [isError, setIsError] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      toast.error("Please login");
+    }
+  }, []);
 
   useEffect(() => {
     setCode(CODE_SNIPPETS[language]);
@@ -93,95 +102,97 @@ const Workspace = () => {
   };
 
   return (
-    <div className="h-screen bg-zinc-900">
-      <ResizablePanelGroup direction="horizontal" className="rounded-lg">
-        <ResizablePanel defaultSize={60}>
-          <div className="p-2 flex justify-between">
-            <DropdownMenuRadioGroupDemo
-              language={language}
-              onSelectLanguage={onSelectLanguage}
-            />
+    <>
+      <div className="h-screen bg-zinc-900">
+        <ResizablePanelGroup direction="horizontal" className="rounded-lg">
+          <ResizablePanel defaultSize={60}>
+            <div className="p-2 flex justify-between">
+              <DropdownMenuRadioGroupDemo
+                language={language}
+                onSelectLanguage={onSelectLanguage}
+              />
 
-            <div className="flex">
-              <Tooltip>
-                <TooltipTrigger>
-                  <button
-                    className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-200 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 flex items-center cursor-pointer"
-                    onClick={copyWorkspaceCode}
-                  >
-                    <Copy className="h-4" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Copy Workspace code</p>
-                </TooltipContent>
-              </Tooltip>
+              <div className="flex">
+                <Tooltip>
+                  <TooltipTrigger>
+                    <button
+                      className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-200 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 flex items-center cursor-pointer"
+                      onClick={copyWorkspaceCode}
+                    >
+                      <Copy className="h-4" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Copy Workspace code</p>
+                  </TooltipContent>
+                </Tooltip>
 
-              <Tooltip>
-                <TooltipTrigger>
-                  <button
-                    className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-200 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 mx-2 flex items-center cursor-pointer"
-                    onClick={() => downloadCode(code, language)}
-                  >
-                    <Download className="h-4" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Download source code</p>
-                </TooltipContent>
-              </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <button
+                      className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-200 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 mx-2 flex items-center cursor-pointer"
+                      onClick={() => downloadCode(code, language)}
+                    >
+                      <Download className="h-4" />
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Download source code</p>
+                  </TooltipContent>
+                </Tooltip>
 
-              <Button
-                className="bg-blue-500/20 px-3 py-1 rounded-md border border-blue-500 text-sm hover:bg-blue-500 active:scale-95 font-semibold text-blue-100 h-8"
-                onClick={runCode}
-              >
-                Run code
-              </Button>
-            </div>
-          </div>
-
-          <Editor
-            height="100vh"
-            theme="vs-dark"
-            language={language}
-            value={code}
-            onChange={(value) => setCode(value || "")}
-          />
-        </ResizablePanel>
-
-        <ResizableHandle withHandle />
-
-        <ResizablePanel defaultSize={40} className="bg-zinc-900">
-          <ResizablePanelGroup direction="vertical">
-            <ResizablePanel defaultSize={55}>
-              <div className="p-6 h-full">
-                <div
-                  className={`font-semibold h-full overflow-y-auto ${
-                    isError
-                      ? "text-red-500"
-                      : output
-                      ? "text-green-500"
-                      : "text-gray-500"
-                  }`}
+                <Button
+                  className="bg-blue-500/20 px-3 py-1 rounded-md border border-blue-500 text-sm hover:bg-blue-500 active:scale-95 font-semibold text-blue-100 h-8"
+                  onClick={runCode}
                 >
-                  {output
-                    ? output.map((line, index) => <p key={index}>{line}</p>)
-                    : 'Click "Run code" to see the output here'}
+                  Run code
+                </Button>
+              </div>
+            </div>
+
+            <Editor
+              height="100vh"
+              theme="vs-dark"
+              language={language}
+              value={code}
+              onChange={(value) => setCode(value || "")}
+            />
+          </ResizablePanel>
+
+          <ResizableHandle withHandle />
+
+          <ResizablePanel defaultSize={40} className="bg-zinc-900">
+            <ResizablePanelGroup direction="vertical">
+              <ResizablePanel defaultSize={55}>
+                <div className="p-6 h-full">
+                  <div
+                    className={`font-semibold h-full overflow-y-auto ${
+                      isError
+                        ? "text-red-500"
+                        : output
+                        ? "text-green-500"
+                        : "text-gray-500"
+                    }`}
+                  >
+                    {output
+                      ? output.map((line, index) => <p key={index}>{line}</p>)
+                      : 'Click "Run code" to see the output here'}
+                  </div>
                 </div>
-              </div>
-            </ResizablePanel>
+              </ResizablePanel>
 
-            <ResizableHandle withHandle />
+              <ResizableHandle withHandle />
 
-            <ResizablePanel defaultSize={45}>
-              <div className="flex h-full items-center justify-center p-6">
-                <span className="font-semibold">Voice & Video</span>
-              </div>
-            </ResizablePanel>
-          </ResizablePanelGroup>
-        </ResizablePanel>
-      </ResizablePanelGroup>
-    </div>
+              <ResizablePanel defaultSize={45}>
+                <div className="flex h-full items-center justify-center p-6">
+                  <span className="font-semibold">Voice & Video</span>
+                </div>
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </div>
+    </>
   );
 };
 

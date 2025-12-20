@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SparklesCore } from "../components/ui/Sparkles";
 import { FlipWords } from "../components/ui/FlipWords";
 import { HoverBorderGradient } from "../components/ui/HoverBorderGradient";
@@ -12,6 +12,15 @@ import Header from "../components/Header";
 import { ShootingStars } from "../components/ui/ShootingStars";
 
 const Home = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   const words = ["faster", "smarter", "better", "cleaner", "together"];
   return (
     <>
@@ -34,15 +43,31 @@ const Home = () => {
           <FlipWords words={words} /> <br />
           with a shared workspace
         </h1>
-        <Link to={"/"}>
-          <HoverBorderGradient
-            containerClassName="rounded-full"
-            as="button"
-            className="bg-black  text-white font-semibold flex items-center space-x-2 cursor-pointer"
-          >
-            <span>Get started</span>
-          </HoverBorderGradient>
-        </Link>
+        {isLoggedIn ? (
+          <>
+            <Link to={"/dashboard"}>
+              <HoverBorderGradient
+                containerClassName="rounded-full"
+                as="button"
+                className="bg-black  text-white font-semibold flex items-center space-x-2 cursor-pointer"
+              >
+                <span>Go to dashboard</span>
+              </HoverBorderGradient>
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to={"/register"}>
+              <HoverBorderGradient
+                containerClassName="rounded-full"
+                as="button"
+                className="bg-black  text-white font-semibold flex items-center space-x-2 cursor-pointer"
+              >
+                <span>Get started</span>
+              </HoverBorderGradient>
+            </Link>
+          </>
+        )}
       </section>
 
       <section className="grid sm:grid-cols-1 md:grid-cols-2 h-180 px-10">

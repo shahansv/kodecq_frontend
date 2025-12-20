@@ -21,10 +21,10 @@ export const getGoogleUserInfo = async (reqHeader) => {
   return await axiosConfig("get", `${googleAPI}`, "", reqHeader);
 };
 
-export const createWorkspace = async () => {
-  return await axiosConfig("post", `${baseURL}/createWorkspace`);
+export const createWorkspace = async (reqHeader) => {
+  return await axiosConfig("post", `${baseURL}/createWorkspace`, "", reqHeader);
 };
 
-export const checkWorkspaceExist = async (code) => {
-  return await axiosConfig("get", `${baseURL}/checkWorkspaceExist/${code}`);
+export const checkWorkspaceExist = async (code, reqHeader) => {
+  return await axiosConfig("get", `${baseURL}/checkWorkspaceExist/${code}`, "", reqHeader);
 };
