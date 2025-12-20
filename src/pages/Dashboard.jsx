@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { cn } from "../lib/utils";
 import {
   IconBrandTabler,
@@ -11,10 +11,19 @@ import {
   IconLogout2,
 } from "@tabler/icons-react";
 import logo from "../assets/favicon.svg";
+import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [open, setOpen] = useState(false);
   const animate = true;
+
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.clear();
+    toast.success("Logged out successfully");
+    navigate("/");
+  };
 
   return (
     <>
@@ -304,7 +313,10 @@ const Dashboard = () => {
                 No
               </button>
             </form>
-            <button className="btn rounded-lg bg-red-500/30 border border-red-500 hover:bg-red-500 px-5">
+            <button
+              className="btn rounded-lg bg-red-500/30 border border-red-500 hover:bg-red-500 px-5"
+              onClick={logout}
+            >
               Yes
             </button>
           </div>

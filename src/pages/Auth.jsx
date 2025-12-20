@@ -63,7 +63,7 @@ const Auth = ({ register }) => {
 
         let apiResponse = await loginUser(reqBody);
         if (apiResponse.status == 200) {
-          toast.success(apiResponse.data.message);
+          // toast.success(apiResponse.data.message);
           localStorage.setItem("token", apiResponse.data.token);
           setUserData({
             name: "",
@@ -101,7 +101,7 @@ const Auth = ({ register }) => {
           let apiResponse = await googleLoginAPI(payload);
 
           if (apiResponse.status === 200 || apiResponse.status === 201) {
-            toast.success(apiResponse.data.message);
+            // toast.success(apiResponse.data.message);
             localStorage.setItem("token", apiResponse.data.token);
             navigate("/dashboard");
           } else {
