@@ -1,4 +1,4 @@
-import { SelectLanguage } from "@/components/ui/SelectLanguage";
+import { SelectLanguage } from "../components/SelectLanguage";
 import { Editor } from "@monaco-editor/react";
 import React, { useState } from "react";
 
