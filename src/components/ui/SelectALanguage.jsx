@@ -12,8 +12,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+} from "../ui/Command";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
 
 import { LANGUAGE_DATA } from "../../constants";
 
