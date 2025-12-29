@@ -43,7 +43,7 @@ const NewQuestion = () => {
           >
             <Editor
               height="40vh"
-              width="76vw"
+              width="70vw"
               theme="vs-dark"
               language={language}
             />
