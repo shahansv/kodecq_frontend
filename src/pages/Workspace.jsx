@@ -115,12 +115,12 @@ const Workspace = () => {
               <div className="flex">
                 <Tooltip>
                   <TooltipTrigger>
-                    <button
-                      className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-200 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 flex items-center cursor-pointer"
+                    <div
+                      className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-100 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 flex items-center cursor-pointer"
                       onClick={copyWorkspaceCode}
                     >
                       <Copy className="h-4" />
-                    </button>
+                    </div>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Copy Workspace code</p>
@@ -129,12 +129,12 @@ const Workspace = () => {
 
                 <Tooltip>
                   <TooltipTrigger>
-                    <button
-                      className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-200 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 mx-2 flex items-center cursor-pointer"
+                    <div
+                      className="bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-100 active:scale-95 font-semibold text-zinc-100 hover:text-zinc-700 h-8 mx-2 flex items-center cursor-pointer"
                       onClick={() => downloadCode(code, language)}
                     >
                       <Download className="h-4" />
-                    </button>
+                    </div>
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>Download source code</p>
