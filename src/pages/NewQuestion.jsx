@@ -1,4 +1,4 @@
-import { SelectLanguage } from "../components/SelectLanguage";
+import { SelectLanguage } from "../components/ui/SelectALanguage";
 import { Editor } from "@monaco-editor/react";
 import React, { useState } from "react";
 
@@ -56,7 +56,6 @@ const NewQuestion = () => {
           </button>
         </div>
       </div>
-   
     </>
   );
 };
