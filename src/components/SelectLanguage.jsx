@@ -14,7 +14,7 @@ import { ChevronDown } from "lucide-react";
 
 const languages = Object.entries(LANGUAGE_VERSIONS);
 
-export function DropdownMenuRadioGroupDemo({ language, onSelectLanguage }) {
+export function SelectLanguage({ language, onSelectLanguage }) {
   const [position, setPosition] = React.useState("bottom");
 
   const data = LANGUAGE_DATA[language];
@@ -70,4 +70,4 @@ export function DropdownMenuRadioGroupDemo({ language, onSelectLanguage }) {
   );
 }
 
-export default DropdownMenuRadioGroupDemo;
+export default SelectLanguage;
