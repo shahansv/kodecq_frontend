@@ -125,7 +125,7 @@ const Dashboard = () => {
 
             <button
               className="flex items-center justify-start gap-2 group/sidebar py-2 cursor-pointer"
-              onClick={() => document.getElementById("my_modal_1").showModal()}
+              onClick={() => document.getElementById("logout_model").showModal()}
             >
               <IconLogout2 className="h-5 w-5 shrink-0 text-neutral-200" />
               <motion.span
@@ -265,7 +265,7 @@ const Dashboard = () => {
                     <button
                       className="flex items-center justify-start gap-2 group/sidebar py-2"
                       onClick={() =>
-                        document.getElementById("my_modal_1").showModal()
+                        document.getElementById("logout_model").showModal()
                       }
                     >
                       <IconLogout2 className="h-5 w-5 shrink-0 text-neutral-200" />
@@ -303,7 +303,7 @@ const Dashboard = () => {
           <Outlet />
         </div>
       </div>
-      <dialog id="my_modal_1" className="modal bg-black/80">
+      <dialog id="logout_model" className="modal bg-black/80">
         <div className="modal-box rounded-2xl bg-zinc-800">
           <h3 className="font-bold text-lg">Confirm logout</h3>
           <p className="py-4">Are you sure you want to log out?</p>

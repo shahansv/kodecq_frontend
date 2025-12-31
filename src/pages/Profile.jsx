@@ -25,7 +25,7 @@ const Profile = () => {
                   className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center
                     opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
                   onClick={() =>
-                    document.getElementById("my_modal_2").showModal()
+                    document.getElementById("edit_profile_photo_model").showModal()
                   }
                 >
                   <Edit className="h-8 w-8 text-white" />
@@ -50,7 +50,7 @@ const Profile = () => {
               <button
                 className="flex border border-blue-600 px-3 py-2 rounded-xl items-center font-semibold text-blue-100 hover:bg-blue-500 hover:text-white cursor-pointer"
                 onClick={() =>
-                  document.getElementById("my_modal_1").showModal()
+                  document.getElementById("edit_profile_model").showModal()
                 }
               >
                 <Edit className="h-5 mr-2" />
@@ -97,7 +97,7 @@ const Profile = () => {
           </div>
         </div>
       </div>
-      <dialog id="my_modal_1" className="modal bg-black/80">
+      <dialog id="edit_profile_model" className="modal bg-black/80">
         <div className="modal-box rounded-2xl bg-zinc-800">
           <h3 className="font-bold text-lg">Edit Profile</h3>
 
@@ -139,7 +139,7 @@ const Profile = () => {
           </div>
         </div>
       </dialog>
-      <dialog id="my_modal_2" className="modal bg-black/80">
+      <dialog id="edit_profile_photo_model" className="modal bg-black/80">
         <div className="modal-box rounded-2xl bg-zinc-900">
           <h3 className="font-bold text-lg mb-4">Change Profile Photo</h3>
 
