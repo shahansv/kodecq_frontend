@@ -14,14 +14,17 @@ import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [open, setOpen] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   const animate = true;
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    setUser(JSON.parse(localStorage.getItem("user")));
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
   }, []);
 
   const logout = () => {
@@ -163,7 +166,7 @@ const Dashboard = () => {
             >
               <img
                 src={
-                  user.profilePhoto ||
+                  user?.profilePhoto ||
                   "https://ik.imagekit.io/shahansv/Kodecq/assets/NoProfilePicture.png"
                 }
                 className="h-8 w-8 shrink-0 rounded-full"
@@ -298,7 +301,7 @@ const Dashboard = () => {
                   >
                     <img
                       src={
-                        user.profilePhoto ||
+                        user?.profilePhoto ||
                         "https://ik.imagekit.io/shahansv/Kodecq/assets/NoProfilePicture.png"
                       }
                       className="h-8 w-8 shrink-0 rounded-full"
