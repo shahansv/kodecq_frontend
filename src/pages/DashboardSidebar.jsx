@@ -186,7 +186,7 @@ const Dashboard = () => {
                 transition={{ duration: 0.12 }}
                 className="text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block p-0 m-0 font-bold"
               >
-                {user.name}
+                {user?.name || "User"}
               </motion.span>
             </Link>
           </div>
@@ -310,7 +310,7 @@ const Dashboard = () => {
                       alt="Avatar"
                     />
                     <span className="text-neutral-700 dark:text-neutral-200 text-sm font-bold">
-                      {user.name}
+                      {user?.name || "User"}
                     </span>
                   </Link>
                 </div>
