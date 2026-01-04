@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { cn } from "../lib/utils";
@@ -10,14 +10,19 @@ import {
   IconUserCode,
   IconLogout2,
 } from "@tabler/icons-react";
-import logo from "../assets/favicon.svg";
 import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const [open, setOpen] = useState(false);
+  const [user, setUser] = useState({});
+
   const animate = true;
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
 
   const logout = () => {
     localStorage.clear();
@@ -48,7 +53,11 @@ const Dashboard = () => {
             className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
             aria-hidden
           >
-            <img src={logo} alt="Kodecq.dev logo" className="h-10 w-8 " />
+            <img
+              src="https://ik.imagekit.io/shahansv/Kodecq/assets/favicon.svg?updatedAt=1767363372600"
+              alt="Kodecq.dev logo"
+              className="h-10 w-8 "
+            />
             <motion.span
               initial={{ opacity: 0 }}
               animate={{ opacity: open ? 1 : 0 }}
@@ -125,7 +134,9 @@ const Dashboard = () => {
 
             <button
               className="flex items-center justify-start gap-2 group/sidebar py-2 cursor-pointer"
-              onClick={() => document.getElementById("logout_model").showModal()}
+              onClick={() =>
+                document.getElementById("logout_model").showModal()
+              }
             >
               <IconLogout2 className="h-5 w-5 shrink-0 text-neutral-200" />
               <motion.span
@@ -151,7 +162,10 @@ const Dashboard = () => {
               className="flex items-center justify-start gap-2 group/sidebar py-2"
             >
               <img
-                src="https://avatars.githubusercontent.com/u/174824123"
+                src={
+                  user.profilePhoto ||
+                  "https://ik.imagekit.io/shahansv/Kodecq/assets/NoProfilePicture.png"
+                }
                 className="h-8 w-8 shrink-0 rounded-full"
                 width={90}
                 height={90}
@@ -169,7 +183,7 @@ const Dashboard = () => {
                 transition={{ duration: 0.12 }}
                 className="text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block p-0 m-0 font-bold"
               >
-                Shahan V Saleem
+                {user.name}
               </motion.span>
             </Link>
           </div>
@@ -214,7 +228,7 @@ const Dashboard = () => {
                     className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black"
                   >
                     <img
-                      src={logo}
+                      src="https://ik.imagekit.io/shahansv/Kodecq/assets/favicon.svg?updatedAt=1767363372600"
                       alt="Kodecq.dev logo"
                       className="h-8 w-6 "
                     />
@@ -252,7 +266,7 @@ const Dashboard = () => {
                     </Link>
 
                     <Link
-                      to="/profile"
+                      to="profile"
                       className="flex items-center justify-start gap-2 group/sidebar py-2"
                       onClick={() => setOpen(false)}
                     >
@@ -278,19 +292,22 @@ const Dashboard = () => {
 
                 <div>
                   <Link
-                    to="/profile"
+                    to="profile"
                     className="flex items-center justify-start gap-2 group/sidebar py-2"
                     onClick={() => setOpen(false)}
                   >
                     <img
-                      src="https://avatars.githubusercontent.com/u/174824123"
+                      src={
+                        user.profilePhoto ||
+                        "https://ik.imagekit.io/shahansv/Kodecq/assets/NoProfilePicture.png"
+                      }
                       className="h-8 w-8 shrink-0 rounded-full"
                       width={50}
                       height={50}
                       alt="Avatar"
                     />
                     <span className="text-neutral-700 dark:text-neutral-200 text-sm font-bold">
-                      Shahan V Saleem
+                      {user.name}
                     </span>
                   </Link>
                 </div>

@@ -1,8 +1,12 @@
 import { cn } from "@/lib/utils";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
+import { toast } from "react-toastify";
+import { X } from "lucide-react";
+
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
 const mainVariant = {
   initial: {
@@ -25,13 +29,25 @@ const secondaryVariant = {
   },
 };
 
-export const FileUpload = ({ onChange }) => {
+export const FileUpload = ({ onChange, clearFiles }) => {
+  useEffect(() => {
+    if (clearFiles) {
+      setFiles([]);
+    }
+  }, [clearFiles]);
   const [files, setFiles] = useState([]);
   const fileInputRef = useRef(null);
 
   const handleFileChange = (newFiles) => {
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-    onChange && onChange(newFiles);
+    const file = newFiles?.[0];
+    if (!file) return;
+    if (file.size > MAX_FILE_SIZE) {
+      toast.error("File size must be less than 2MB");
+      return;
+    }
+    file.preview = URL.createObjectURL(file);
+    setFiles([file]);
+    onChange && onChange([file]);
   };
 
   const handleClick = () => {
@@ -41,11 +57,37 @@ export const FileUpload = ({ onChange }) => {
   const { getRootProps, isDragActive } = useDropzone({
     multiple: false,
     noClick: true,
+    maxSize: MAX_FILE_SIZE,
     onDrop: handleFileChange,
-    onDropRejected: (error) => {
-      console.log(error);
+    onDropRejected: () => {
+      toast.error("File size must be less than 2MB");
     },
   });
+
+  const handleRemoveFile = () => {
+    files.forEach((file) => {
+      if (file.preview) {
+        URL.revokeObjectURL(file.preview);
+      }
+    });
+
+    setFiles([]);
+    onChange && onChange([]);
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      files.forEach((file) => {
+        if (file.preview) {
+          URL.revokeObjectURL(file.preview);
+        }
+      });
+    };
+  }, [files]);
 
   return (
     <div className="w-full" {...getRootProps()}>
@@ -72,17 +114,37 @@ export const FileUpload = ({ onChange }) => {
             Drag or drop your files here or click to upload
           </p>
           <div className="relative w-full mt-10 max-w-xl mx-auto">
+            {files.length > 0 && files[0].type.startsWith("image/") && (
+              <div className="flex justify-center mb-4">
+                <img
+                  src={files[0].preview}
+                  alt="Preview"
+                  className="h-32 w-32 rounded-2xl object-cover"
+                />
+              </div>
+            )}
+
             {files.length > 0 &&
               files.map((file, idx) => (
                 <motion.div
                   key={"file" + idx}
                   layoutId={idx === 0 ? "file-upload" : "file-upload-" + idx}
                   className={cn(
-                    "relative overflow-hidden z-40 bg-neutral-900 flex flex-col items-start justify-start md:h-24 p-4 mt-4 w-full mx-auto rounded-md",
-                    "shadow-sm"
+                    "relative overflow-hidden z-40 bg-neutral-900 flex flex-col items-start justify-start  p-4 mt-4 w-full mx-auto rounded-md",
+                    "shadow-sm h-32"
                   )}
                 >
                   <div className="flex justify-between w-full items-center gap-4">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRemoveFile();
+                      }}
+                      className=" m-3 absolute -top-2 -right-2 h-6 w-6 rounded-full bg-black/80 text-white flex items-center justify-center text-xs hover:bg-red-600 transition"
+                    >
+                      <X className="h-4" />
+                    </button>
                     <motion.p
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
@@ -95,7 +157,7 @@ export const FileUpload = ({ onChange }) => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       layout
-                      className="rounded-lg px-2 py-1 w-fit shrink-0 text-sm bg-neutral-800 text-white shadow-input"
+                      className="rounded-lg px-2 py-1 w-fit shrink-0 text-sm bg-neutral-800 text-white shadow-input mt-5"
                     >
                       {(file.size / (1024 * 1024)).toFixed(2)} MB
                     </motion.p>

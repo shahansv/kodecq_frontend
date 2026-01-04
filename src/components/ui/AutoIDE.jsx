@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import JavaScript from "../../assets/JavaScript.svg";
 import { X } from "lucide-react";
 
 const HEADER_LINES = ["/* demo programs */", ""];
@@ -391,7 +390,7 @@ export default function AutoIDE({
         >
           <span className="mr-1 flex items-center justify-between">
             <img
-              src={JavaScript}
+              src="https://ik.imagekit.io/shahansv/Kodecq/assets/JavaScript.svg"
               alt="Javascript logo"
               className="h-3.5 mr-2 rounded-xs "
             />

@@ -65,6 +65,7 @@ const Auth = ({ register }) => {
         if (apiResponse.status == 200) {
           // toast.success(apiResponse.data.message);
           localStorage.setItem("token", apiResponse.data.token);
+          localStorage.setItem("user", JSON.stringify(apiResponse.data.user));
           setUserData({
             name: "",
             email: "",
@@ -103,6 +104,7 @@ const Auth = ({ register }) => {
           if (apiResponse.status === 200 || apiResponse.status === 201) {
             // toast.success(apiResponse.data.message);
             localStorage.setItem("token", apiResponse.data.token);
+            localStorage.setItem("user", JSON.stringify(apiResponse.data.user));
             navigate("/dashboard");
           } else {
             toast.error("Google login failed");
