@@ -29,7 +29,7 @@ const ALL_OPTION = {
   logo: null,
 };
 
-export function ComboboxDemo() {
+export function ComboboxDemo({ onLanguageChange }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -73,6 +73,7 @@ export function ComboboxDemo() {
                 value="all"
                 onSelect={() => {
                   setValue("all");
+                  onLanguageChange("all"); // 🔥 triggers API call
                   setOpen(false);
                 }}
                 className="text-zinc-100"
@@ -92,6 +93,7 @@ export function ComboboxDemo() {
                   value={language.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue);
+                    onLanguageChange(currentValue); // 🔥 triggers local filter
                     setOpen(false);
                   }}
                   className="flex items-center gap-2 text-zinc-100"

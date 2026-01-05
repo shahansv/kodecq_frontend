@@ -8,6 +8,7 @@ export function PlaceholdersAndVanishInput({
   placeholders,
   onChange,
   onSubmit,
+  setSearchKey,
 }) {
   const [currentPlaceholder, setCurrentPlaceholder] = useState(0);
 
@@ -190,6 +191,7 @@ export function PlaceholdersAndVanishInput({
           if (!animating) {
             setValue(e.target.value);
             onChange && onChange(e);
+            setSearchKey(e.target.value);
           }
         }}
         onKeyDown={handleKeyDown}

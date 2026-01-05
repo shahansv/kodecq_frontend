@@ -48,3 +48,11 @@ export const removeProfilePhoto = async (id, reqHeader) => {
 export const changeProfilePhoto = async (id, reqBody, reqHeader) => {
   return await axiosConfig("patch", `${baseURL}/changeProfilePhoto/${id}`, reqBody, reqHeader);
 };
+
+export const addQuestion = async (reqBody, reqHeader) => {
+  return await axiosConfig("post", `${baseURL}/addQuestion`, reqBody, reqHeader);
+};
+
+export const getQuestions = async (reqHeader, searchKey) => {
+  return await axiosConfig("get", `${baseURL}/getQuestions/?search=${searchKey}`, "", reqHeader);
+};
