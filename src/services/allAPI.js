@@ -56,3 +56,27 @@ export const addQuestion = async (reqBody, reqHeader) => {
 export const getQuestions = async (reqHeader, searchKey) => {
   return await axiosConfig("get", `${baseURL}/getQuestions/?search=${searchKey}`, "", reqHeader);
 };
+
+export const viewQuestion = async (id, reqHeader) => {
+  return await axiosConfig("get", `${baseURL}/viewQuestion/${id}`, "", reqHeader);
+}
+
+export const addAnswer = async (id, reqBody, reqHeader) => {
+  return await axiosConfig("post", `${baseURL}/addAnswer/${id}`, reqBody, reqHeader);
+};
+
+export const getMyQuestions = async (id, reqHeader) => {
+  return await axiosConfig("get", `${baseURL}/getMyQuestions/${id}`, "", reqHeader);
+}
+
+export const deleteQuestion = async (id, reqHeader) => {
+  return await axiosConfig("delete", `${baseURL}/deleteQuestion/${id}`, "", reqHeader);
+};
+
+export const editQuestion = async (id, reqBody, reqHeader) => {
+  return await axiosConfig("patch", `${baseURL}/editQuestion/${id}`, reqBody, reqHeader);
+}
+
+export const deleteAnswer = async (id, reqHeader) => {
+  return await axiosConfig("delete", `${baseURL}/deleteAnswer/${id}`, "", reqHeader);
+}

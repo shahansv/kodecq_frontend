@@ -33,10 +33,10 @@ const Questions = () => {
   const getAllQuestions = async () => {
     try {
       let token = localStorage.getItem("token");
-      let header = {
+      let reqHeader = {
         Authorization: `Bearer ${token}`,
       };
-      let apiResponse = await getQuestions(header, searchKey);
+      let apiResponse = await getQuestions(reqHeader, searchKey);
       if (apiResponse.status == 200) {
         setQuestionData(apiResponse.data.questionData);
         setCopyQuestionData(apiResponse.data.questionData);
@@ -45,6 +45,7 @@ const Questions = () => {
       }
     } catch (error) {
       console.log(error);
+      toast.error("Something went wrong. Try again");
     }
   };
 
@@ -86,7 +87,7 @@ const Questions = () => {
                     <img
                       src={eachQuestion.askedBy.profilePhoto}
                       className="h-8 w-8 shrink-0 rounded-full"
-                      alt="Avatar"
+                      alt={eachQuestion.askedBy.name}
                     />
                     <h4 className="text-zinc-200">
                       {eachQuestion.askedBy.name}
@@ -189,7 +190,7 @@ const Questions = () => {
                   </h4>
 
                   <Link
-                    to={`/question/${eachQuestion._id}`}
+                    to={`/dashboard/questions/${eachQuestion._id}`}
                     className="bg-blue-500/40 border border-blue-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-blue-500"
                   >
                     Open

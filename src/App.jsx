@@ -9,6 +9,9 @@ import DashboardHome from "./pages/DashboardHome";
 import Workspace from "./pages/Workspace";
 import { Slide, ToastContainer } from "react-toastify";
 import NewQuestion from "./pages/NewQuestion";
+import ViewQuestion from "./pages/ViewQuestion";
+import YourAnswer from "./pages/YourAnswer";
+import EditQuestion from "./pages/EditQuestion";
 
 const App = () => {
   return (
@@ -20,6 +23,9 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />}>
           <Route index element={<DashboardHome />} />
           <Route path="questions" element={<Questions />} />
+          <Route path="questions/:id" element={<ViewQuestion />} />
+          <Route path="addAnswer/:id" element={<YourAnswer />} />
+          <Route path="editQuestion/:id" element={<EditQuestion />} />
           <Route path="profile" element={<Profile />} />
           <Route path="add_question" element={<NewQuestion />} />
         </Route>

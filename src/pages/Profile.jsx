@@ -2,13 +2,15 @@ import { FileUpload } from "@/components/ui/FileUpload";
 import {
   changePassword,
   changeProfilePhoto,
+  deleteQuestion,
   editProfile,
+  getMyQuestions,
   getUserDetails,
   removeProfilePhoto,
 } from "@/services/allAPI";
 import { Edit, KeyRound } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Profile = () => {
@@ -20,6 +22,8 @@ const Profile = () => {
     newPassword: "",
     confirmPassword: "",
   });
+
+  const [questions, setQuestions] = useState([]);
 
   const [clearUpload, setClearUpload] = useState(false);
 
@@ -34,6 +38,7 @@ const Profile = () => {
 
   useEffect(() => {
     userDetails();
+    getUserQuestions();
   }, []);
 
   const userDetails = async () => {
@@ -51,6 +56,28 @@ const Profile = () => {
     } catch (error) {
       console.log(error);
       toast.error("Somthing went wrong while fetching user data");
+    }
+  };
+
+  const getUserQuestions = async () => {
+    try {
+      let token = localStorage.getItem("token");
+      let reqHeader = {
+        Authorization: `Bearer ${token}`,
+      };
+      const user = localStorage.getItem("user");
+      const parsedUser = JSON.parse(user);
+      const id = parsedUser.userId;
+
+      let apiResponse = await getMyQuestions(id, reqHeader);
+      if (apiResponse.status == 200) {
+        setQuestions(apiResponse.data.myQuestions);
+      } else {
+        toast.error(apiResponse.data.response.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while fetching questions");
     }
   };
 
@@ -197,6 +224,23 @@ const Profile = () => {
     }
   };
 
+  const deleteMyQuestion = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+      const reqHeader = {
+        Authorization: `Bearer ${token}`,
+      };
+      const apiResponse = await deleteQuestion(id, reqHeader);
+      if (apiResponse.status === 200) {
+        toast.success("Question deleted successfully");
+        getUserQuestions();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to delete question");
+    }
+  };
+
   return (
     <>
       <div className="relative p-3 md:p-10 ">
@@ -261,40 +305,131 @@ const Profile = () => {
         </div>
         <div className="border border-neutral-700 rounded-3xl w-full items-center gap-4 mt-5  p-3">
           <h1 className="text-2xl font-bold m-3">Your Asked</h1>
+          {questions.length > 0 ? (
+            <>
+              {questions.map((eachQuestion, index) => (
+                <div
+                  key={index}
+                  className="bg-neutral-900 rounded-2xl p-3 my-5"
+                >
+                  <div className="flex justify-between">
+                    <h1 className="text-xl font-bold mb-5 ml-2 text-cyan-400/80">
+                      {eachQuestion.title}
+                    </h1>
+                    {eachQuestion.language == "javascript" ? (
+                      <div>
+                        <h3 className="bg-[#F7E01D] text-yellow-700 border border-yellow-700 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
+                          JavaScript
+                        </h3>
+                      </div>
+                    ) : eachQuestion.language == "typescript" ? (
+                      <div>
+                        <h3 className="bg-[#017ACC] text-indigo-200 border border-indigo-200 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
+                          TypeScript
+                        </h3>
+                      </div>
+                    ) : eachQuestion.language == "python" ? (
+                      <div>
+                        <h3 className="bg-[#FED646] text-amber-700 border border-amber-700 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
+                          Python
+                        </h3>
+                      </div>
+                    ) : eachQuestion.language == "java" ? (
+                      <div>
+                        <h3 className="bg-[#EA6D00] text-orange-200 border border-orange-200 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
+                          Java
+                        </h3>
+                      </div>
+                    ) : eachQuestion.language == "c" ? (
+                      <div>
+                        <h3 className="bg-[#00599D] text-blue-200 border border-blue-200 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
+                          C
+                        </h3>
+                      </div>
+                    ) : eachQuestion.language == "cpp" ? (
+                      <div>
+                        <h3 className="bg-[#1B598F] text-blue-200 border border-blue-200 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
+                          C++
+                        </h3>
+                      </div>
+                    ) : eachQuestion.language == "csharp" ? (
+                      <div>
+                        <h3 className="bg-[#3A0091] text-purple-200 border border-purple-200 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
+                          C#
+                        </h3>
+                      </div>
+                    ) : eachQuestion.language == "go" ? (
+                      <div>
+                        <h3 className="bg-[#00ACD9] text-cyan-100 border border-cyan-100 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
+                          Go
+                        </h3>
+                      </div>
+                    ) : eachQuestion.language == "php" ? (
+                      <div>
+                        <h3 className="bg-[#777BB3] text-indigo-100 border border-indigo-100 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
+                          PHP
+                        </h3>
+                      </div>
+                    ) : eachQuestion.language == "rust" ? (
+                      <div>
+                        <h3 className="bg-[#CD422A] text-orange-100 border border-orange-100 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
+                          Rust
+                        </h3>
+                      </div>
+                    ) : (
+                      <div>
+                        <h3 className="bg-zinc-800 text-zinc-100 border border-zinc-100 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
+                          {eachQuestion.language}
+                        </h3>
+                      </div>
+                    )}
+                  </div>
+                  <div className="bg-zinc-800 rounded-xl p-3">
+                    <h2 className="text-zinc-200">{eachQuestion.problem}</h2>
+                  </div>
+                  <div className="flex justify-between items-end mt-3">
+                    <h4 className="text-sm text-zinc-600">
+                      {new Date(eachQuestion.createdAt).toLocaleString(
+                        undefined,
+                        {
+                          year: "numeric",
+                          month: "short",
+                          day: "2-digit",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        }
+                      )}
+                    </h4>
+                    <div>
+                      <Link
+                        to={`/dashboard/questions/${eachQuestion._id}`}
+                        className="bg-blue-500/40 border border-blue-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-blue-500 mx-1"
+                      >
+                        Open
+                      </Link>
 
-          <div className="bg-neutral-900 rounded-2xl p-3 my-5">
-            <div className="flex justify-between">
-              <h1 className="text-xl font-bold mb-5 ml-2 text-cyan-400/80">
-                problem
-              </h1>
-              <div className="badge badge-soft badge-warning px-3">
-                JavaScript
-              </div>
-            </div>
-            <div className="bg-zinc-800 rounded-xl p-3">
-              <h2 className="text-zinc-200">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Aliquid, voluptate. Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Reprehenderit quam laboriosam, est molestiae
-                dolorem repellat eius numquam provident molestias ea, possimus
-                voluptatibus ratione temporibus. Cupiditate quo, sit fugit
-                possimus aut atque blanditiis, distinctio perspiciatis
-                dignissimos rerum voluptatum dolor dolorem cumque modi qui
-                libero, nostrum nam quos reprehenderit veniam sint iste.
-              </h2>
-            </div>
-            <div className="text-end mt-3">
-              <button className="bg-blue-500/40 border border-blue-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-blue-500 mx-1">
-                Open
-              </button>
-              <button className="bg-zinc-500/40 border border-zinc-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-zinc-500 mx-1">
-                Edit
-              </button>
-              <button className="bg-red-500/40 border border-red-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-red-500 mx-1">
-                Delete
-              </button>
-            </div>
-          </div>
+                      <Link
+                        to={`/dashboard/editQuestion/${eachQuestion._id}`}
+                        className="bg-zinc-500/40 border border-zinc-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-zinc-500 mx-1"
+                      >
+                        Edit
+                      </Link>
+
+                      <button
+                        className="bg-red-500/40 border border-red-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-red-500 mx-1"
+                        onClick={() => deleteMyQuestion(eachQuestion._id)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </>
+          ) : (
+            <p className="text-center text-red-500">No questions asked yet.</p>
+          )}
         </div>
       </div>
       <dialog id="edit_profile_model" className="modal bg-black/80">
