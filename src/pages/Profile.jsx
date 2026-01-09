@@ -251,7 +251,7 @@ const Profile = () => {
                 <img
                   src={
                     userData.profilePhoto ||
-                    "https://ik.imagekit.io/shahansv/Kodecq/assets/NoProfilePicture.png"
+                    "https://ik.imagekit.io/shahansv/kodecq/assets/NoProfilePhoto.svg"
                   }
                   alt="Profile picture"
                   className="rounded-full h-32 w-32 mt-5 md:mt-0 md:h-44 md:w-44 object-cover"

@@ -31,6 +31,11 @@ const Workspace = () => {
   const isRemoteUpdate = useRef(false);
   const navigate = useNavigate();
   const { workspaceID } = useParams();
+  const [users, setUsers] = useState([]);
+
+  const isRemoteLanguageUpdate = useRef(false);
+
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     let token = localStorage.getItem("token");
@@ -41,26 +46,87 @@ const Workspace = () => {
   }, []);
 
   useEffect(() => {
-    setCode(CODE_SNIPPETS[language]);
+    if (!isRemoteLanguageUpdate.current) {
+      setCode(CODE_SNIPPETS[language]);
+    } else {
+      isRemoteLanguageUpdate.current = false;
+    }
   }, [language]);
 
   useEffect(() => {
-    if (workspaceID) {
-      socket.emit("joinWorkspace", workspaceID);
+    if (!workspaceID || !currentUser) return;
+
+    if (!socket.connected) {
+      socket.connect();
     }
 
-    socket.on("codeUpdate", (updatedCode) => {
-      isRemoteUpdate.current = true;
-      setCode(updatedCode);
+    socket.emit("joinWorkspace", {
+      workspaceID,
+      user: {
+        userId: currentUser.userId,
+        name: currentUser.name,
+        profilePhoto: currentUser.profilePhoto,
+      },
     });
 
+    const handleCodeUpdate = (updatedCode) => {
+      isRemoteUpdate.current = true;
+      setCode(updatedCode);
+    };
+
+    const handleUserJoined = (user) => {
+      toast.success(`${user.name} joined the workspace`);
+    };
+
+    const handleUserLeft = (user) => {
+      toast.error(`${user.name} left the workspace`);
+    };
+
+    const handleWorkspaceUsers = (users) => {
+      setUsers(users);
+    };
+
+    const handleLanguageUpdate = (newLanguage) => {
+      isRemoteLanguageUpdate.current = true;
+      setLanguage(newLanguage);
+      setCode(CODE_SNIPPETS[newLanguage]); 
+    };
+
+    const handleRunResultUpdate = ({ output, isError }) => {
+      setOutput(output);
+      setIsError(isError);
+    };
+
+    socket.on("codeUpdate", handleCodeUpdate);
+    socket.on("userJoined", handleUserJoined);
+    socket.on("userLeft", handleUserLeft);
+    socket.on("workspaceUsers", handleWorkspaceUsers);
+    socket.on("languageUpdate", handleLanguageUpdate);
+    socket.on("runResultUpdate", handleRunResultUpdate);
+
     return () => {
-      socket.off("codeUpdate");
+      socket.off("codeUpdate", handleCodeUpdate);
+      socket.off("userJoined", handleUserJoined);
+      socket.off("userLeft", handleUserLeft);
+      socket.off("workspaceUsers", handleWorkspaceUsers);
+      socket.off("languageUpdate", handleLanguageUpdate);
+      socket.off("runResultUpdate", handleRunResultUpdate);
     };
   }, [workspaceID]);
 
   const onSelectLanguage = (lang) => {
+    if (isRemoteLanguageUpdate.current) {
+      isRemoteLanguageUpdate.current = false;
+      setLanguage(lang);
+      return;
+    }
+
     setLanguage(lang);
+
+    socket.emit("languageChange", {
+      workspaceID,
+      language: lang,
+    });
   };
 
   const copyWorkspaceCode = async () => {
@@ -89,8 +155,17 @@ const Workspace = () => {
 
       if (apiResponse.status === 200) {
         let result = apiResponse.data.run;
-        setOutput(result.output.split("\n"));
-        setIsError(!!result.stderr);
+        const formattedOutput = result.output.split("\n");
+        const error = !!result.stderr;
+
+        setOutput(formattedOutput);
+        setIsError(error);
+
+        socket.emit("runResult", {
+          workspaceID,
+          output: formattedOutput,
+          isError: error,
+        });
       } else {
         toast.error("Something went wrong");
       }
@@ -215,7 +290,32 @@ const Workspace = () => {
 
             <ResizablePanel defaultSize={45}>
               <div className="flex h-full items-center justify-center p-6">
-                <span className="font-semibold">Voice & Video</span>
+                <div className="w-full h-full p-4 overflow-y-auto">
+                  <h3 className="font-semibold mb-4 text-center">
+                    Users in Workspace
+                  </h3>
+
+                  {users.length === 0 && (
+                    <p className="text-center text-zinc-400">No users yet</p>
+                  )}
+
+                  {users.map((user) => (
+                    <div
+                      key={user.socketId}
+                      className="flex items-center gap-3 mb-3 p-3 rounded-md bg-zinc-800 border border-zinc-700"
+                    >
+                      <img
+                        src={user.profilePhoto}
+                        alt={user.name}
+                        className="w-10 h-10 rounded-full"
+                      />
+
+                      <span className="text-zinc-100 font-medium">
+                        {user.name}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </ResizablePanel>
           </ResizablePanelGroup>

@@ -14,43 +14,43 @@ export const LANGUAGE_VERSIONS = {
 export const LANGUAGE_DATA = {
   javascript: {
     label: "JavaScript",
-    logo: "https://ik.imagekit.io/shahansv/Kodecq/assets/JavaScript.svg",
+    logo: "https://ik.imagekit.io/shahansv/kodecq/assets/JavaScript.svg",
   },
   typescript: {
     label: "TypeScript",
-    logo: "https://ik.imagekit.io/shahansv/Kodecq/assets/TypeScript.svg",
+    logo: "https://ik.imagekit.io/shahansv/kodecq/assets/TypeScript.svg",
   },
   python: {
     label: "Python",
-    logo: "https://ik.imagekit.io/shahansv/Kodecq/assets/Python.svg",
+    logo: "https://ik.imagekit.io/shahansv/kodecq/assets/Python.svg",
   },
   java: {
     label: "Java",
-    logo: "https://ik.imagekit.io/shahansv/Kodecq/assets/Java.svg",
+    logo: "https://ik.imagekit.io/shahansv/kodecq/assets/Java.svg",
   },
   c: {
     label: "C",
-    logo: "https://ik.imagekit.io/shahansv/Kodecq/assets/C.svg",
+    logo: "https://ik.imagekit.io/shahansv/kodecq/assets/C.svg",
   },
   cpp: {
     label: "C++",
-    logo: "https://ik.imagekit.io/shahansv/Kodecq/assets/Cpp.svg",
+    logo: "https://ik.imagekit.io/shahansv/kodecq/assets/Cpp.svg",
   },
   csharp: {
     label: "C#",
-    logo: "https://ik.imagekit.io/shahansv/Kodecq/assets/CSharp.svg",
+    logo: "https://ik.imagekit.io/shahansv/kodecq/assets/CSharp.svg",
   },
   go: {
     label: "Go",
-    logo: "https://ik.imagekit.io/shahansv/Kodecq/assets/Go.svg",
+    logo: "https://ik.imagekit.io/shahansv/kodecq/assets/Go.svg",
   },
   php: {
     label: "PHP",
-    logo: "https://ik.imagekit.io/shahansv/Kodecq/assets/PHP.svg",
+    logo: "https://ik.imagekit.io/shahansv/kodecq/assets/PHP.svg",
   },
   rust: {
     label: "Rust",
-    logo: "https://ik.imagekit.io/shahansv/Kodecq/assets/Rust.svg",
+    logo: "https://ik.imagekit.io/shahansv/kodecq/assets/Rust.svg",
   },
 };
 
