@@ -4,7 +4,7 @@ import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
+import { Button } from "../components/ui/shadcn/Button";
 import {
   Command,
   CommandEmpty,
@@ -12,10 +12,14 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../ui/Command";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
+} from "../components/ui/shadcn/Command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "../components/ui/shadcn/Popover";
 
-import { LANGUAGE_DATA } from "../../constants";
+import { LANGUAGE_DATA } from "../constants";
 
 const languages = Object.entries(LANGUAGE_DATA).map(([value, data]) => ({
   value,
@@ -35,7 +39,7 @@ export function SelectLanguage({ setLanguage }) {
         <Button
           role="combobox"
           aria-expanded={open}
-          className="w-xs  md:w-2xl justify-between bg-[#1E1E1E] text-zinc-500"
+          className="w-xs  md:w-2xl justify-between dark:bg-[#1E1E1E] bg-white border border-cyan-800/30  dark:border-neutral-700 my-1 text-neutral-900 dark:text-neutral-100 hover:bg-neutral-200 dark:hover:bg-neutral-700"
         >
           {selected ? (
             <span className="flex items-center gap-2">
@@ -56,7 +60,7 @@ export function SelectLanguage({ setLanguage }) {
       </PopoverTrigger>
 
       <PopoverContent className="w-xs  md:w-2xl p-0 border-zinc-700 bg-transparent">
-        <Command className="bg-zinc-800 text-zinc-100">
+        <Command className="dark:bg-zinc-800 ">
           <CommandInput placeholder="Search language" className="h-9" />
           <CommandList>
             <CommandEmpty>No language found.</CommandEmpty>
@@ -71,7 +75,7 @@ export function SelectLanguage({ setLanguage }) {
                     setLanguage(currentValue);
                     setOpen(false);
                   }}
-                  className="flex items-center gap-2 text-zinc-100"
+                  className="flex items-center gap-2 "
                 >
                   <img
                     src={language.logo}

@@ -23,12 +23,14 @@ export const TextHoverEffect = ({ text, duration }) => {
   return (
     <svg
       ref={svgRef}
-      viewBox="0 0 450 45"
+      width="100%"
+      height="100%"
+      viewBox="0 0 300 100"
       xmlns="http://www.w3.org/2000/svg"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
-      className="select-none my-auto"
+      className="select-none"
     >
       <defs>
         <linearGradient
@@ -40,11 +42,11 @@ export const TextHoverEffect = ({ text, duration }) => {
         >
           {hovered && (
             <>
-              <stop offset="0%" stopColor="#53EAFD" />
-              <stop offset="25%" stopColor="#53EAFD" />
-              <stop offset="50%" stopColor="#53EAFD" />
-              <stop offset="75%" stopColor="#53EAFD" />
-              <stop offset="100%" stopColor="#53EAFD" />
+              <stop offset="0%" stopColor="#00D1F0" />
+              <stop offset="25%" stopColor="#00D1F0" />
+              <stop offset="50%" stopColor="#00D1F0" />
+              <stop offset="75%" stopColor="#00D1F0" />
+              <stop offset="100%" stopColor="#00D1F0" />
             </>
           )}
         </linearGradient>
@@ -56,12 +58,12 @@ export const TextHoverEffect = ({ text, duration }) => {
           initial={{ cx: "50%", cy: "50%" }}
           animate={maskPosition}
           // example for a smoother animation below
-          //   transition={{
-          //     type: "spring",
-          //     stiffness: 300,
-          //     damping: 50,
-          //   }}
-          transition={{ duration: duration ?? 0, ease: "easeOut" }}
+            transition={{
+              type: "spring",
+              stiffness: 300,
+              damping: 50,
+            }}
+          // transition={{ duration: duration ?? 0, ease: "easeOut" }}
         >
           <stop offset="0%" stopColor="white" />
           <stop offset="100%" stopColor="black" />
@@ -81,8 +83,8 @@ export const TextHoverEffect = ({ text, duration }) => {
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.3"
-        className="fill-transparent stroke-neutral-200 font-[helvetica] text-3xl font-bold dark:stroke-neutral-800"
+        strokeWidth="0.5"
+        className="fill-transparent stroke-neutral-200 font-[helvetica] text-7xl font-bold dark:stroke-neutral-800"
         style={{ opacity: hovered ? 0.7 : 0 }}
       >
         {text}
@@ -92,8 +94,8 @@ export const TextHoverEffect = ({ text, duration }) => {
         y="50%"
         textAnchor="middle"
         dominantBaseline="middle"
-        strokeWidth="0.3"
-        className="fill-transparent stroke-neutral-200 font-[helvetica] text-3xl font-bold dark:stroke-neutral-800"
+        strokeWidth="0.5"
+        className="fill-transparent stroke-neutral-200 font-[helvetica] text-7xl font-bold dark:stroke-neutral-700"
         initial={{ strokeDashoffset: 1000, strokeDasharray: 1000 }}
         animate={{
           strokeDashoffset: 0,
@@ -114,7 +116,7 @@ export const TextHoverEffect = ({ text, duration }) => {
         stroke="url(#textGradient)"
         strokeWidth="0.5"
         mask="url(#textMask)"
-        className="fill-transparent font-[helvetica] text-3xl font-bold"
+        className="fill-transparent font-[helvetica] text-7xl font-bold"
       >
         {text}
       </text>

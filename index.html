@@ -5,16 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Kodecq is a real time collaborative IDE where multiple developers code together in one shared workspace with chat, video, and Monaco powered editing all in the browser."
+      content="Kodecq is a real-time collaborative coding platform where programmers can code together in shared workspaces, execute code in multiple programming languages, and ask or answer coding questions using a VS Code style online IDE"
     />
     <link
-      rel="shortcut icon"
-      href="./src/assets/favicon.svg"
-      type="image/x-icon"
+      rel="icon"
+      type="image/svg+xml"
+      href="https://ik.imagekit.io/shahansv/kodecq/assets/KodecqLogo.svg"
     />
-    <title>Kodecq.dev</title>
+    <title>Kodecq</title>
+    <script>
+      (function () {
+        const theme = localStorage.getItem("theme");
+        if (theme === "dark") {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
   </head>
-  <body class="bg-black text-zinc-50">
+  <body class="dark:bg-black dark:text-neutral-100 transition">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

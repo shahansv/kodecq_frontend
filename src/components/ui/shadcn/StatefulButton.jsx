@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 import { motion, useAnimate } from "motion/react";
 
-export const Button = ({ className, children, ...props }) => {
+export const LoaderButton = ({ className, children, ...props }) => {
   const [scope, animate] = useAnimate();
 
   const animateLoading = async () => {
@@ -80,7 +80,7 @@ export const Button = ({ className, children, ...props }) => {
       layoutId="button"
       ref={scope}
       className={cn(
-        "flex min-w-[120px] cursor-pointer items-center justify-center gap-2 rounded-full font-medium text-white  transition duration-200",
+        "flex min-w-30 cursor-pointer items-center justify-center gap-2 rounded-full font-medium text-blue-500 dark:text-white transition duration-200",
         className
       )}
       {...buttonProps}
@@ -124,7 +124,7 @@ const Loader = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="loader text-white"
+      className="loader dark:text-white text-blue-500"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M12 3a9 9 0 1 0 9 9" />
@@ -153,7 +153,7 @@ const CheckIcon = () => {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="check text-white"
+      className="check dark:text-white text-blue-500"
     >
       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
       <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />

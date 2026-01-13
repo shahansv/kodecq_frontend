@@ -1,10 +1,9 @@
 import { cn } from "@/lib/utils";
 import React, { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
-import { IconUpload } from "@tabler/icons-react";
 import { useDropzone } from "react-dropzone";
-import { toast } from "react-toastify";
-import { X } from "lucide-react";
+import { Upload, X } from "lucide-react";
+import toast from "react-hot-toast";
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
@@ -205,10 +204,10 @@ export const FileUpload = ({ onChange, clearFiles }) => {
                     className="text-neutral-600 flex flex-col items-center"
                   >
                     Drop it
-                    <IconUpload className="h-4 w-4 text-neutral-400" />
+                    <Upload className="h-4 w-4 text-neutral-400" />
                   </motion.p>
                 ) : (
-                  <IconUpload className="h-4 w-4  text-neutral-300" />
+                  <Upload className="h-4 w-4  text-neutral-300" />
                 )}
               </motion.div>
             )}

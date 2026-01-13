@@ -4,7 +4,7 @@ import * as React from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
+import { Button } from "./ui/shadcn/Button";
 import {
   Command,
   CommandEmpty,
@@ -12,10 +12,10 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../ui/Command";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/Popover";
+} from "./ui/shadcn/Command";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/shadcn/Popover";
 
-import { LANGUAGE_DATA } from "../../constants";
+import { LANGUAGE_DATA } from "../constants";
 
 const languages = Object.entries(LANGUAGE_DATA).map(([value, data]) => ({
   value,
@@ -29,7 +29,7 @@ const ALL_OPTION = {
   logo: null,
 };
 
-export function ComboboxDemo({ onLanguageChange }) {
+export function FilterByLanguage({ onLanguageChange }) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
@@ -42,7 +42,7 @@ export function ComboboxDemo({ onLanguageChange }) {
         <Button
           role="combobox"
           aria-expanded={open}
-          className="w-[220px] justify-between bg-zinc-800 text-zinc-300"
+          className="w-55 justify-between bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-300   "
         >
           {selected ? (
             <span className="flex items-center gap-2">
@@ -56,14 +56,14 @@ export function ComboboxDemo({ onLanguageChange }) {
               {selected.label}
             </span>
           ) : (
-            "Sort by language"
+            "Filter by language"
           )}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent className="w-[220px] p-0 border-zinc-700 bg-transparent">
-        <Command className="bg-zinc-800 text-zinc-100">
+      <PopoverContent className="w-55 p-0 border-zinc-300 dark:border-zinc-700 bg-transparent">
+        <Command className="bg-zinc-200 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100">
           <CommandInput placeholder="Search language" className="h-9" />
           <CommandList>
             <CommandEmpty>No language found.</CommandEmpty>
@@ -73,10 +73,10 @@ export function ComboboxDemo({ onLanguageChange }) {
                 value="all"
                 onSelect={() => {
                   setValue("all");
-                  onLanguageChange("all"); // 🔥 triggers API call
+                  onLanguageChange("all");
                   setOpen(false);
                 }}
-                className="text-zinc-100"
+                className="text-zinc-800 dark:text-zinc-100"
               >
                 All
                 <Check
@@ -93,10 +93,11 @@ export function ComboboxDemo({ onLanguageChange }) {
                   value={language.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue);
-                    onLanguageChange(currentValue); // 🔥 triggers local filter
+                    onLanguageChange(currentValue);
                     setOpen(false);
                   }}
-                  className="flex items-center gap-2 text-zinc-100"
+                  className="flex items-center gap-2 
+                  text-zinc-800 dark:text-zinc-100 "
                 >
                   <img
                     src={language.logo}

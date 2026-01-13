@@ -3,7 +3,7 @@ import React, { useEffect, useId, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useRef } from "react";
 import { cn } from "@/lib/utils";
-import { SparklesCore } from "./Sparkles";
+import { SparklesCore } from "../aceternity/Sparkles";
 
 export const Cover = ({ children, className }) => {
   const [hovered, setHovered] = useState(false);
@@ -32,7 +32,7 @@ export const Cover = ({ children, className }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       ref={ref}
-      className="relative hover:bg-neutral-900  group/cover inline-block  bg-neutral-800/70 px-2 py-2  transition duration-200 rounded-sm"
+      className="relative hover:bg-neutral-900  group/cover inline-block dark:bg-neutral-900 bg-neutral-100 px-2 py-2  transition duration-200 rounded-sm"
     >
       <AnimatePresence>
         {hovered && (
@@ -125,7 +125,7 @@ export const Cover = ({ children, className }) => {
           },
         }}
         className={cn(
-          " inline-block text-white relative z-20 group-hover/cover:text-white transition duration-200",
+          "dark:text-white inline-block text-neutral-900 relative z-20 group-hover/cover:text-white transition duration-200",
           className
         )}
       >
@@ -207,5 +207,3 @@ export const CircleIcon = ({ className, delay }) => {
     ></div>
   );
 };
-
-export default Cover;

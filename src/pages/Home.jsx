@@ -1,44 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { SparklesCore } from "../components/ui/Sparkles";
-import { FlipWords } from "../components/ui/FlipWords";
-import { HoverBorderGradient } from "../components/ui/HoverBorderGradient";
-import { Link } from "react-router-dom";
-import AutoIDE from "../components/ui/AutoIDE";
-import GlowingEffectDemo from "../components/ui/BentoGrid";
-import Cover from "../components/ui/Cover";
-import ScrollButton from "../components/ScrollButton";
-import Footer from "../components/Footer";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "../components/Header";
-import { ShootingStars } from "../components/ui/ShootingStars";
+import Footer from "../components/Footer";
+import { authContext } from "../context/AuthContext";
+import { SparklesCore } from "../components/ui/aceternity/Sparkles";
+import { ShootingStars } from "../components/ui/aceternity/ShootingStart";
+import { FlipWords } from "../components/ui/aceternity/FlipWords";
+import { Link } from "react-router-dom";
+import { HoverBorderGradient } from "../components/ui/aceternity/HoverBorderGradient";
+import { userDataContext } from "../context/UserDataContext";
+import { Cover } from "../components/ui/aceternity/Cover";
+import { HomeBentoCard } from "../components/HomeBentoCard";
+import AutoIDE from "../components/AutoIDE";
+import ScrollButton from "../components/ScrollButton";
 
 const Home = () => {
+  const { token } = useContext(authContext);
+  const { theme } = useContext(userDataContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    let token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
     }
   }, []);
 
   const words = ["faster", "smarter", "better", "cleaner", "together"];
+
   return (
     <>
       <Header />
-      <section className="h-screen md:h-180 relative w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
+      <section className="h-screen md:h-188 relative w-full bg-black flex flex-col items-center justify-center overflow-hidden rounded-md">
         <div className="w-full absolute inset-0 h-screen">
           <SparklesCore
-            id="tsparticlesfullpagn"
-            background="transparent"
+            id="homePage"
+            background={theme == "dark" ? "#000" : "#FFF"}
             minSize={0.6}
             maxSize={1.4}
             particleDensity={30}
-            className="w-full h-full"
-            particleColor="#53EAFD"
+            className="w-full h-full transition"
+            particleColor={theme == "dark" ? "#53EAFD" : "#000"}
           />
-          <ShootingStars />
+          <ShootingStars starColor={theme == "dark" ? "#53EAFD" : "#000"} />
         </div>
-        <h1 className="md:text-7xl text-3xl lg:text-6xl font-bold text-center text-white leading-tight relative z-20 mb-2">
+        <h1 className="md:text-7xl text-3xl lg:text-6xl font-bold text-center text-neutral-900 dark:text-neutral-100 leading-tight relative z-20 mb-2">
           Build
           <FlipWords words={words} /> <br />
           with a shared workspace
@@ -49,7 +53,7 @@ const Home = () => {
               <HoverBorderGradient
                 containerClassName="rounded-full"
                 as="button"
-                className="bg-black  text-white font-semibold flex items-center space-x-2 cursor-pointer"
+                className="font-semibold flex items-center space-x-2 cursor-pointer"
               >
                 <span>Go to dashboard</span>
               </HoverBorderGradient>
@@ -61,7 +65,7 @@ const Home = () => {
               <HoverBorderGradient
                 containerClassName="rounded-full"
                 as="button"
-                className="bg-black  text-white font-semibold flex items-center space-x-2 cursor-pointer"
+                className="font-semibold flex items-center space-x-2 cursor-pointer"
               >
                 <span>Get started</span>
               </HoverBorderGradient>
@@ -72,9 +76,10 @@ const Home = () => {
 
       <section className="grid sm:grid-cols-1 md:grid-cols-2 h-180 px-10">
         <div className="flex items-center ">
-          <h1 className="text-3xl md:text-3xl lg:text-6xl font-semibold max-w-7xl mx-auto mt-6 relative z-20 py-6 text-white">
-            A collaborative IDE that improves teamwork at <br /> at
-            <span className="mt-2">
+          <h1 className="text-3xl text-center md:text-start md:text-3xl lg:text-6xl font-semibold max-w-7xl mx-auto mt-6 relative z-20 py-6 text-neutral-900 dark:text-neutral-100">
+            A collaborative IDE that accelerates developer teamwork seamlessly
+            at
+            <span className="m-2">
               <Cover>warp speed</Cover>
             </span>
           </h1>
@@ -83,10 +88,12 @@ const Home = () => {
           <AutoIDE />
         </div>
       </section>
+
       <section className="px-10">
-        <GlowingEffectDemo />
+        <HomeBentoCard />
       </section>
       <ScrollButton />
+
       <Footer />
     </>
   );

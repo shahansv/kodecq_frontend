@@ -8,7 +8,7 @@ import { motion, useAnimation } from "motion/react";
 
 export const SparklesCore = (props) => {
   const {
-    id,
+    id = "sparkles-core",
     className,
     background,
     minSize,

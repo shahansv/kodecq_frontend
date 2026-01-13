@@ -1,33 +1,36 @@
-import { FileUpload } from "@/components/ui/FileUpload";
+import { FileUpload } from "@/components/ui/aceternity/FileUpload";
+import { LoaderFive } from "../components/ui/aceternity/Loader";
+import { authContext } from "../context/AuthContext";
+import { userDataContext } from "../context/UserDataContext";
 import {
   changePassword,
   changeProfilePhoto,
-  deleteQuestion,
   editProfile,
-  getMyQuestions,
   getUserDetails,
   removeProfilePhoto,
-} from "@/services/allAPI";
+} from "../services/allAPI";
 import { Edit, KeyRound } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+
+import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import MyQuestions from "@/components/MyQuestions";
 
 const Profile = () => {
+  const { token, removeToken } = useContext(authContext);
+  const { userData, saveUserData } = useContext(userDataContext);
   const navigate = useNavigate();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState([]);
+  const [clearUpload, setClearUpload] = useState(false);
+
   const [changePasswordData, setChangePasswordData] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
 
-  const [questions, setQuestions] = useState([]);
-
-  const [clearUpload, setClearUpload] = useState(false);
-
-  const [userData, setUserData] = useState({
+  const [userDetails, setUserDetails] = useState({
     name: "",
     email: "",
     profilePhoto: "",
@@ -37,74 +40,62 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    userDetails();
-    getUserQuestions();
+    if (!token) {
+      navigate("/login");
+      toast.error("Please login");
+    }
+
+    getUserData();
   }, []);
 
-  const userDetails = async () => {
+  const getUserData = async () => {
     try {
-      let token = localStorage.getItem("token");
       let reqHeader = {
         Authorization: `Bearer ${token}`,
       };
+      setIsLoading(true);
       let apiResponse = await getUserDetails(reqHeader);
       if (apiResponse.status == 200) {
-        setUserData(apiResponse.data);
+        setUserDetails(apiResponse.data);
       } else {
         toast.error(apiResponse.data.response.message);
       }
     } catch (error) {
       console.log(error);
       toast.error("Somthing went wrong while fetching user data");
-    }
-  };
-
-  const getUserQuestions = async () => {
-    try {
-      let token = localStorage.getItem("token");
-      let reqHeader = {
-        Authorization: `Bearer ${token}`,
-      };
-      const user = localStorage.getItem("user");
-      const parsedUser = JSON.parse(user);
-      const id = parsedUser.userId;
-
-      let apiResponse = await getMyQuestions(id, reqHeader);
-      if (apiResponse.status == 200) {
-        setQuestions(apiResponse.data.myQuestions);
-      } else {
-        toast.error(apiResponse.data.response.message);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong while fetching questions");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const editProfileDetails = async () => {
     try {
-      if (userData.name == "") {
+      if (userDetails.name == "") {
         toast.error("Name is required");
       } else {
-        const token = localStorage.getItem("token");
         const reqHeader = {
           Authorization: `Bearer ${token}`,
         };
 
         const reqBody = {
-          name: userData.name,
-          profession: userData.profession,
+          name: userDetails.name,
+          profession: userDetails.profession,
         };
-
-        const apiResponse = await editProfile(userData._id, reqBody, reqHeader);
+        setIsLoading(true);
+        const apiResponse = await editProfile(
+          userData.userId,
+          reqBody,
+          reqHeader
+        );
 
         if (apiResponse.status === 200) {
           toast.success("Profile updated successfully");
           document.getElementById("edit_profile_model").close();
-          const user = JSON.parse(localStorage.getItem("user"));
-          user.name = apiResponse.data.userDetails.name;
-          localStorage.setItem("user", JSON.stringify(user));
-          userDetails();
+          saveUserData({
+            ...userData,
+            name: apiResponse.data.userDetails.name,
+          });
+          getUserData();
         } else {
           toast.error(apiResponse.data.response.message);
         }
@@ -112,6 +103,8 @@ const Profile = () => {
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -123,13 +116,12 @@ const Profile = () => {
       if (currentPassword == "" || newPassword == "" || confirmPassword == "") {
         toast.error("All fields are required");
       } else {
-        if (currentPassword !== userData.password) {
+        if (currentPassword !== userDetails.password) {
           toast.error("Current password is incorrect");
         } else {
           if (newPassword !== confirmPassword) {
             toast.error("New passwords do not match");
           } else {
-            const token = localStorage.getItem("token");
             const reqHeader = {
               Authorization: `Bearer ${token}`,
             };
@@ -137,19 +129,19 @@ const Profile = () => {
             const reqBody = {
               password: newPassword,
             };
-
-            const response = await changePassword(
-              userData._id,
+            setIsLoading(true);
+            const apiResponse = await changePassword(
+              userDetails._id,
               reqBody,
               reqHeader
             );
 
-            if (response.status === 200) {
+            if (apiResponse.status === 200) {
               toast.success("Password updated successfully");
-              localStorage.clear();
+              removeToken();
               navigate("/");
             } else {
-              toast.error(response.data.response.message);
+              toast.error(apiResponse.data.response.message);
             }
           }
         }
@@ -157,26 +149,32 @@ const Profile = () => {
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const removeUserProfilePhoto = async () => {
     try {
-      const token = localStorage.getItem("token");
       const reqHeader = {
         Authorization: `Bearer ${token}`,
       };
-      const apiResponse = await removeProfilePhoto(userData._id, reqHeader);
+      setIsLoading(true);
+      const apiResponse = await removeProfilePhoto(userDetails._id, reqHeader);
       if (apiResponse.status === 200) {
-        const user = JSON.parse(localStorage.getItem("user"));
-        user.profilePhoto = apiResponse.data.userDetails.profilePhoto;
-        localStorage.setItem("user", JSON.stringify(user));
+        saveUserData({
+          ...userData,
+          profilePhoto: apiResponse.data.userDetails.profilePhoto,
+        });
         toast.success("Profile photo removed successfully");
-        userDetails();
+        document.getElementById("view_profile_photo_model").close();
+        getUserData();
       }
     } catch (error) {
       console.log(error);
       toast.error("Failed to remove profile photo");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -192,27 +190,26 @@ const Profile = () => {
         return;
       }
 
-      const token = localStorage.getItem("token");
-
       const reqHeader = {
         Authorization: `Bearer ${token}`,
       };
 
       const formData = new FormData();
       formData.append("profilePhoto", files[0]);
-
+      setIsLoading(true);
       const apiResponse = await changeProfilePhoto(
-        userData._id,
+        userDetails._id,
         formData,
         reqHeader
       );
 
       if (apiResponse.status === 200) {
         toast.success("Profile photo updated");
-        userDetails();
-        const user = JSON.parse(localStorage.getItem("user"));
-        user.profilePhoto = apiResponse.data.userDetails.profilePhoto;
-        localStorage.setItem("user", JSON.stringify(user));
+        getUserData();
+        saveUserData({
+          ...userData,
+          profilePhoto: apiResponse.data.userDetails.profilePhoto,
+        });
         setFiles([]);
         setClearUpload(true);
 
@@ -221,263 +218,130 @@ const Profile = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response?.data?.message || "Upload failed");
-    }
-  };
-
-  const deleteMyQuestion = async (id) => {
-    try {
-      const token = localStorage.getItem("token");
-      const reqHeader = {
-        Authorization: `Bearer ${token}`,
-      };
-      const apiResponse = await deleteQuestion(id, reqHeader);
-      if (apiResponse.status === 200) {
-        toast.success("Question deleted successfully");
-        getUserQuestions();
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to delete question");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <>
-      <div className="relative p-3 md:p-10 ">
-        <div className="border border-neutral-700 rounded-3xl w-full flex flex-col items-center gap-4 md:flex-row md:justify-between md:h-56">
-          <div className="w-full flex flex-col items-center md:flex-row md:items-center md:pl-10">
-            <div className="p-2 flex justify-center items-center w-auto">
-              <div className="relative group">
-                <img
-                  src={
-                    userData.profilePhoto ||
-                    "https://ik.imagekit.io/shahansv/kodecq/assets/NoProfilePhoto.svg"
-                  }
-                  alt="Profile picture"
-                  className="rounded-full h-32 w-32 mt-5 md:mt-0 md:h-44 md:w-44 object-cover"
-                />
-                <div
-                  className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center
+      <div className="relative p-3 md:p-10">
+        {isLoading ? (
+          <div className="w-full flex justify-center items-center text-3xl border border-neutral-400 dark:border-neutral-700 rounded-3xl h-56">
+            <LoaderFive text="Loading..." />
+          </div>
+        ) : (
+          <div className="border border-neutral-400 dark:border-neutral-700 rounded-3xl w-full flex flex-col items-center gap-4 md:flex-row md:justify-between md:h-56">
+            <div className="w-full flex flex-col items-center md:flex-row md:items-center md:pl-10">
+              <div className="p-2 flex justify-center items-center w-auto">
+                <div className="relative group">
+                  <img
+                    src={
+                      userDetails.profilePhoto ||
+                      "https://ik.imagekit.io/shahansv/kodecq/assets/NoProfilePhoto.svg?updatedAt=1767897694129"
+                    }
+                    alt="Profile picture"
+                    className="rounded-full h-32 w-32 mt-5 md:mt-0 md:h-44 md:w-44 object-cover border"
+                  />
+                  <div
+                    className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center
                     opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
-                  onClick={() =>
-                    document
-                      .getElementById("view_profile_photo_model")
-                      .showModal()
-                  }
-                >
-                  <Edit className="h-7 w-7 text-zinc-200" />
+                    onClick={() =>
+                      document
+                        .getElementById("view_profile_photo_model")
+                        .showModal()
+                    }
+                  >
+                    <Edit className="h-7 w-7 text-zinc-200" />
+                  </div>
                 </div>
+              </div>
+
+              <div className="w-auto flex flex-col justify-center pl-0 text-center md:pl-3 md:text-left">
+                <h2 className="text-3xl font-bold">{userDetails.name}</h2>
+
+                <h3 className="text-neutral-600 dark:text-neutral-400 font-semibold">
+                  {userDetails.profession}
+                </h3>
+                <h3 className="text-neutral-600 dark:text-neutral-400 text-xs">
+                  {userDetails.email}
+                </h3>
               </div>
             </div>
 
-            <div className="w-auto flex flex-col justify-center pl-0 text-center md:pl-3 md:text-left">
-              <h2 className="text-3xl font-bold">{userData.name}</h2>
-
-              <h3 className="text-neutral-400 font-semibold">
-                {userData.profession}
-              </h3>
-              <h3 className="text-neutral-400 text-xs">{userData.email}</h3>
-            </div>
-          </div>
-
-          <div className="w-full flex justify-center items-center p-5 md:justify-end md:items-end">
-            <button
-              className="flex border border-blue-600 px-3 py-2 rounded-lg items-center font-semibold text-blue-100 hover:bg-blue-500 hover:text-white cursor-pointer text-sm m-2"
-              onClick={() =>
-                document.getElementById("edit_profile_model").showModal()
-              }
-            >
-              <Edit className="h-4 mr-1" />
-              Edit Profile
-            </button>
-            {userData.password != "googlePassword" && (
+            <div className="w-full flex justify-center items-center p-5 md:justify-end md:items-end">
               <button
-                className="flex border border-blue-600 px-3 py-2 rounded-lg items-center font-semibold text-blue-100 hover:bg-blue-500 hover:text-white cursor-pointer text-sm m-2"
+                className="flex border border-blue-600 px-3 py-2 rounded-lg items-center font-semibold text-blue-500 dark:text-blue-100 hover:bg-blue-500 hover:text-white cursor-pointer text-sm m-2"
                 onClick={() =>
-                  document.getElementById("change_password_model").showModal()
+                  document.getElementById("edit_profile_model").showModal()
                 }
               >
-                <KeyRound className="h-4 mr-1" />
-                Change password
+                <Edit className="h-4 mr-1" />
+                Edit Profile
               </button>
-            )}
-          </div>
-        </div>
-        <div className="border border-neutral-700 rounded-3xl w-full items-center gap-4 mt-5  p-3">
-          <h1 className="text-2xl font-bold m-3">Your Asked</h1>
-          {questions.length > 0 ? (
-            <>
-              {questions.map((eachQuestion, index) => (
-                <div
-                  key={index}
-                  className="bg-neutral-900 rounded-2xl p-3 my-5"
+              {userDetails.password != "googlePassword" && (
+                <button
+                  className="flex border border-blue-600 px-3 py-2 rounded-lg items-center font-semibold text-blue-500 dark:text-blue-100 hover:bg-blue-500 hover:text-white cursor-pointer text-sm m-2"
+                  onClick={() =>
+                    document.getElementById("change_password_model").showModal()
+                  }
                 >
-                  <div className="flex justify-between">
-                    <h1 className="text-xl font-bold mb-5 ml-2 text-cyan-400/80">
-                      {eachQuestion.title}
-                    </h1>
-                    {eachQuestion.language == "javascript" ? (
-                      <div>
-                        <h3 className="bg-[#F7E01D] text-yellow-700 border border-yellow-700 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
-                          JavaScript
-                        </h3>
-                      </div>
-                    ) : eachQuestion.language == "typescript" ? (
-                      <div>
-                        <h3 className="bg-[#017ACC] text-indigo-200 border border-indigo-200 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
-                          TypeScript
-                        </h3>
-                      </div>
-                    ) : eachQuestion.language == "python" ? (
-                      <div>
-                        <h3 className="bg-[#FED646] text-amber-700 border border-amber-700 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
-                          Python
-                        </h3>
-                      </div>
-                    ) : eachQuestion.language == "java" ? (
-                      <div>
-                        <h3 className="bg-[#EA6D00] text-orange-200 border border-orange-200 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
-                          Java
-                        </h3>
-                      </div>
-                    ) : eachQuestion.language == "c" ? (
-                      <div>
-                        <h3 className="bg-[#00599D] text-blue-200 border border-blue-200 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
-                          C
-                        </h3>
-                      </div>
-                    ) : eachQuestion.language == "cpp" ? (
-                      <div>
-                        <h3 className="bg-[#1B598F] text-blue-200 border border-blue-200 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
-                          C++
-                        </h3>
-                      </div>
-                    ) : eachQuestion.language == "csharp" ? (
-                      <div>
-                        <h3 className="bg-[#3A0091] text-purple-200 border border-purple-200 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
-                          C#
-                        </h3>
-                      </div>
-                    ) : eachQuestion.language == "go" ? (
-                      <div>
-                        <h3 className="bg-[#00ACD9] text-cyan-100 border border-cyan-100 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
-                          Go
-                        </h3>
-                      </div>
-                    ) : eachQuestion.language == "php" ? (
-                      <div>
-                        <h3 className="bg-[#777BB3] text-indigo-100 border border-indigo-100 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
-                          PHP
-                        </h3>
-                      </div>
-                    ) : eachQuestion.language == "rust" ? (
-                      <div>
-                        <h3 className="bg-[#CD422A] text-orange-100 border border-orange-100 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
-                          Rust
-                        </h3>
-                      </div>
-                    ) : (
-                      <div>
-                        <h3 className="bg-zinc-800 text-zinc-100 border border-zinc-100 px-3 py-0.5 rounded-full text-xs font-bold mr-2">
-                          {eachQuestion.language}
-                        </h3>
-                      </div>
-                    )}
-                  </div>
-                  <div className="bg-zinc-800 rounded-xl p-3">
-                    <h2 className="text-zinc-200">{eachQuestion.problem}</h2>
-                  </div>
-                  <div className="flex justify-between items-end mt-3">
-                    <h4 className="text-sm text-zinc-600">
-                      {new Date(eachQuestion.createdAt).toLocaleString(
-                        undefined,
-                        {
-                          year: "numeric",
-                          month: "short",
-                          day: "2-digit",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          hour12: true,
-                        }
-                      )}
-                    </h4>
-                    <div>
-                      <Link
-                        to={`/dashboard/questions/${eachQuestion._id}`}
-                        className="bg-blue-500/40 border border-blue-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-blue-500 mx-1"
-                      >
-                        Open
-                      </Link>
-
-                      <Link
-                        to={`/dashboard/editQuestion/${eachQuestion._id}`}
-                        className="bg-zinc-500/40 border border-zinc-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-zinc-500 mx-1"
-                      >
-                        Edit
-                      </Link>
-
-                      <button
-                        className="bg-red-500/40 border border-red-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-red-500 mx-1"
-                        onClick={() => deleteMyQuestion(eachQuestion._id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </>
-          ) : (
-            <p className="text-center text-red-500">No questions asked yet.</p>
-          )}
-        </div>
+                  <KeyRound className="h-4 mr-1" />
+                  Change password
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+        <MyQuestions />
       </div>
+
       <dialog id="edit_profile_model" className="modal bg-black/80">
-        <div className="modal-box rounded-2xl bg-zinc-800">
+        <div className="modal-box rounded-2xl bg-zinc-100 dark:bg-zinc-800">
           <h3 className="font-bold text-lg">Edit Profile</h3>
 
           <label
             htmlFor="name"
-            className="flex flex-col text-zinc-300 my-2 text-sm"
+            className="flex flex-col text-zinc-700 dark:text-zinc-400 my-2 text-sm"
           >
             Name:
             <input
               id="name"
               type="text"
               placeholder="Name"
-              className="bg-[#1E1E1E] px-3 py-2 rounded-lg  border border-zinc-700/70 my-1 text-white"
-              value={userData.name}
+              className="bg-zinc-100 dark:bg-[#1E1E1E] px-3 py-2 rounded-lg  border border-zinc-400  dark:border-zinc-700/70 my-1"
+              value={userDetails.name}
               onChange={(e) =>
-                setUserData({ ...userData, name: e.target.value })
+                setUserDetails({ ...userDetails, name: e.target.value })
               }
             />
           </label>
 
           <label
             htmlFor="profession"
-            className="flex flex-col text-zinc-300 my-2 text-sm"
+            className="flex flex-col text-zinc-700 dark:text-zinc-400  my-2 text-sm"
           >
             Profession:
             <input
               id="profession"
               type="text"
               placeholder="Your profession"
-              className="bg-[#1E1E1E] px-3 py-2 rounded-lg  border border-zinc-700/70 my-1 text-white"
-              value={userData.profession}
+              className="bg-zinc-100 dark:bg-[#1E1E1E] px-3 py-2 rounded-lg  border border-zinc-400  dark:border-zinc-700/70 my-1"
+              value={userDetails.profession}
               onChange={(e) =>
-                setUserData({ ...userData, profession: e.target.value })
+                setUserDetails({ ...userDetails, profession: e.target.value })
               }
             />
           </label>
 
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn rounded-lg bg-zinc-500/30 border border-zinc-900 hover:bg-slate-800 px-5">
+              <button className="btn rounded-lg dark:bg-zinc-500/30 border border-zinc-900 hover:bg-slate-800 px-5 hover:text-white">
                 Cancel
               </button>
             </form>
             <button
-              className="btn rounded-lg bg-blue-500/30 border border-blue-500 hover:bg-blue-500 px-5"
+              className="btn rounded-lg dark:bg-blue-500/30 border border-blue-500 hover:bg-blue-500 px-5 text-blue-500 hover:text-white dark:text-white "
               onClick={editProfileDetails}
             >
               Save
@@ -486,14 +350,14 @@ const Profile = () => {
         </div>
       </dialog>
       <dialog id="change_password_model" className="modal bg-black/80">
-        <div className="modal-box rounded-2xl bg-zinc-800">
+        <div className="modal-box rounded-2xl bg-zinc-100 dark:bg-zinc-800">
           <h3 className="font-bold text-lg">Change Password</h3>
 
-          <label className="flex flex-col text-zinc-300 my-2 text-sm">
+          <label className="flex flex-col text-zinc-700 dark:text-zinc-400 my-2 text-sm">
             Current password:
             <input
               type="password"
-              className="bg-[#1E1E1E] px-3 py-2 rounded-lg border border-zinc-700/70 my-1 text-white"
+              className="bg-zinc-100 dark:bg-[#1E1E1E] px-3 py-2 rounded-lg  border border-zinc-400  dark:border-zinc-700/70 my-1"
               value={changePasswordData.currentPassword}
               onChange={(e) =>
                 setChangePasswordData({
@@ -504,11 +368,11 @@ const Profile = () => {
             />
           </label>
 
-          <label className="flex flex-col text-zinc-300 my-2 text-sm">
+          <label className="flex flex-col text-zinc-700 dark:text-zinc-400 my-2 text-sm">
             New password:
             <input
               type="password"
-              className="bg-[#1E1E1E] px-3 py-2 rounded-lg border border-zinc-700/70 my-1 text-white"
+              className="bg-zinc-100 dark:bg-[#1E1E1E] px-3 py-2 rounded-lg  border border-zinc-400  dark:border-zinc-700/70 my-1"
               value={changePasswordData.newPassword}
               onChange={(e) =>
                 setChangePasswordData({
@@ -519,11 +383,11 @@ const Profile = () => {
             />
           </label>
 
-          <label className="flex flex-col text-zinc-300 my-2 text-sm">
+          <label className="flex flex-col text-zinc-700 dark:text-zinc-400 my-2 text-sm">
             Confirm password:
             <input
               type="password"
-              className="bg-[#1E1E1E] px-3 py-2 rounded-lg border border-zinc-700/70 my-1 text-white"
+              className="bg-zinc-100 dark:bg-[#1E1E1E] px-3 py-2 rounded-lg  border border-zinc-400  dark:border-zinc-700/70 my-1"
               value={changePasswordData.confirmPassword}
               onChange={(e) =>
                 setChangePasswordData({
@@ -536,12 +400,12 @@ const Profile = () => {
 
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn rounded-lg bg-zinc-700/30 border border-zinc-900 hover:bg-slate-800 px-5">
+              <button className="btn rounded-lg dark:bg-zinc-500/30 border border-zinc-900 hover:bg-slate-800 px-5 hover:text-white">
                 Cancel
               </button>
             </form>
             <button
-              className="btn rounded-lg bg-blue-500/30 border border-blue-500 hover:bg-blue-500 px-5"
+              className="btn rounded-lg dark:bg-blue-500/30 border border-blue-500 hover:bg-blue-500 px-5 text-blue-500 hover:text-white dark:text-white "
               onClick={changeUserPassword}
             >
               Save
@@ -550,14 +414,14 @@ const Profile = () => {
         </div>
       </dialog>
       <dialog id="view_profile_photo_model" className="modal bg-black/80">
-        <div className="modal-box rounded-2xl bg-zinc-900">
+        <div className="modal-box rounded-2xl bg-zinc-100 dark:bg-zinc-800">
           <h3 className="font-bold text-lg mb-4">View Profile Photo</h3>
 
-          <div className="w-full max-w-4xl mx-auto min-h-110 border border-dashed bg-black border-neutral-800 rounded-lg flex flex-col justify-center items-center">
+          <div className="w-full max-w-4xl mx-auto min-h-110 border border-dashed bg-white dark:bg-black border-neutral-800 rounded-lg flex flex-col justify-center items-center">
             <img
               src={
                 userData.profilePhoto ||
-                "https://ik.imagekit.io/shahansv/Kodecq/assets/NoProfilePicture.png"
+                "https://ik.imagekit.io/shahansv/kodecq/assets/NoProfilePhoto.svg?updatedAt=1767897694129"
               }
               alt="Profile picture"
               className="rounded-full h-80 w-80 mt-5 md:mt-0 md:h-80 md:w-80 object-cover"
@@ -565,13 +429,13 @@ const Profile = () => {
 
             <div className=" mt-8 flex gap-5">
               <button
-                className="btn rounded-lg bg-blue-500/30 border border-blue-500 hover:bg-blue-500 px-5"
+                className="btn rounded-lg dark:bg-blue-500/30 border border-blue-500 hover:bg-blue-500 px-5 text-blue-500 hover:text-white dark:text-white "
                 onClick={removeUserProfilePhoto}
               >
                 Remove
               </button>
               <button
-                className="btn rounded-lg bg-blue-500/30 border border-blue-500 hover:bg-blue-500 px-5"
+                className="btn rounded-lg dark:bg-blue-500/30 border border-blue-500 hover:bg-blue-500 px-5 text-blue-500 hover:text-white dark:text-white "
                 onClick={() => {
                   document.getElementById("view_profile_photo_model").close();
                   document
@@ -586,7 +450,7 @@ const Profile = () => {
 
           <div className="modal-action">
             <form method="dialog">
-              <button className="btn rounded-lg bg-zinc-600/30 border border-zinc-900 hover:bg-slate-800 px-5">
+              <button className="btn rounded-lg dark:bg-zinc-500/30 border border-zinc-900 hover:bg-slate-800 px-5 hover:text-white">
                 Cancel
               </button>
             </form>
@@ -594,7 +458,7 @@ const Profile = () => {
         </div>
       </dialog>
       <dialog id="edit_profile_photo_model" className="modal bg-black/80">
-        <div className="modal-box rounded-2xl bg-zinc-900">
+        <div className="modal-box rounded-2xl bg-zinc-100 dark:bg-zinc-800">
           <h3 className="font-bold text-lg mb-4">Change Profile Photo</h3>
 
           <div className="w-full max-w-4xl mx-auto min-h-96 border border-dashed bg-black border-neutral-800 rounded-lg">
@@ -604,7 +468,7 @@ const Profile = () => {
           <div className="modal-action">
             <form method="dialog">
               <button
-                className="btn rounded-lg bg-zinc-600/30 border border-zinc-900 hover:bg-slate-800 px-5"
+                className="btn rounded-lg dark:bg-zinc-500/30 border border-zinc-900 hover:bg-slate-800 px-5 hover:text-white"
                 onClick={() => {
                   document
                     .getElementById("view_profile_photo_model")
@@ -616,7 +480,7 @@ const Profile = () => {
               </button>
             </form>
             <button
-              className="btn rounded-lg bg-blue-500/30 border border-blue-500 hover:bg-blue-500 px-5"
+              className="btn rounded-lg dark:bg-blue-500/30 border border-blue-500 hover:bg-blue-500 px-5 text-blue-500 hover:text-white dark:text-white "
               onClick={uploadProfilePhoto}
             >
               Save
