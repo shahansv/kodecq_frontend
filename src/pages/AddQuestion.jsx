@@ -146,7 +146,7 @@ const AddQuestion = () => {
 
             <div className="w-full text-end mt-8">
               <button
-                className="bg-blue-500/40 border border-blue-600 px-3 py-2 rounded-lg text-sm font-semibold cursor-pointer hover:bg-blue-500"
+                className="bg-blue-500 border border-blue-500 text-white px-3 py-2 rounded-lg text-sm font-semibold cursor-pointer hover:bg-blue-600 active:scale-95 transition"
                 onClick={addNewQuestion}
               >
                 Submit

@@ -63,7 +63,7 @@ const MyQuestions = () => {
   return (
     <>
       {isLoading ? (
-        <div className=" w-full flex justify-center items-center text-3xl border border-neutral-400 dark:border-neutral-700 rounded-3xl h-56">
+        <div className=" w-full flex mt-5 justify-center items-center text-3xl border border-neutral-400 dark:border-neutral-700 rounded-3xl h-56">
           <LoaderFive text="Loading..." />
         </div>
       ) : (
@@ -74,7 +74,7 @@ const MyQuestions = () => {
               {questions.map((eachQuestion, index) => (
                 <div
                   key={index}
-                  className="bg-neutral-100 dark:bg-neutral-800/15 rounded-2xl p-3 my-5 border border-cyan-400 dark:border-cyan-500/10"
+                  className="bg-neutral-100/80 dark:bg-neutral-800/15 rounded-2xl p-3 my-5 border border-cyan-400 dark:border-cyan-500/10"
                 >
                   <div className="flex justify-between">
                     <h1 className="text-xl font-bold mb-5 ml-2 text-shadow-cyan-900 dark:text-cyan-400/80 ">
@@ -148,7 +148,7 @@ const MyQuestions = () => {
                       </div>
                     )}
                   </div>
-                  <div className="bg-zinc-200 dark:bg-zinc-800 rounded-xl p-3">
+                  <div className="bg-neutral-200/50 dark:bg-zinc-800 rounded-xl p-3">
                     <h2 className="dark:text-zinc-200">
                       {eachQuestion.problem}
                     </h2>
@@ -164,7 +164,7 @@ const MyQuestions = () => {
                           hour: "2-digit",
                           minute: "2-digit",
                           hour12: true,
-                        }
+                        },
                       )}
                     </h4>
                     <div>

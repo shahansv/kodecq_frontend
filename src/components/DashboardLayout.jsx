@@ -76,7 +76,7 @@ export function DashboardLayout() {
       className={cn(
         " flex w-full flex-1 flex-col overflow-hidden bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800",
         // for your use case, use `h-screen` instead of `h-[60vh]`
-        "h-screen"
+        "h-screen",
       )}
     >
       <Sidebar open={open} setOpen={setOpen}>
@@ -97,7 +97,11 @@ export function DashboardLayout() {
                     className="cursor-pointer transition active:rotate-45"
                     onClick={toggleTheme}
                   >
-                    {theme == "dark" ? <Sun /> : <Moon />}
+                    {theme == "dark" ? (
+                      <Sun className="hover:text-amber-200 transition" />
+                    ) : (
+                      <Moon className="hover:text-blue-800 transition" />
+                    )}
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -196,7 +200,7 @@ const Dashboard = () => {
               </button>
             </form>
             <button
-              className="btn rounded-lg bg-red-100 border border-red-300 hover:bg-red-500 hover:border-red-500 px-5 text-red-500 hover:text-red-50"
+              className="rounded-lg bg-red-500  px-5 text-white cursor-pointer active:scale-95 font-semibold"
               onClick={logout}
             >
               Yes

@@ -166,7 +166,7 @@ const ViewQuestion = () => {
                 {question?.title}
               </h1>
             </div>
-            <div className="bg-zinc-200 dark:bg-zinc-800 rounded-xl p-3">
+            <div className="bg-zinc-200/50 dark:bg-zinc-800 rounded-xl p-3">
               <h2 className="">{question?.problem}</h2>
             </div>
             {question?.code && (
@@ -197,7 +197,7 @@ const ViewQuestion = () => {
               <Link
                 to={`/dashboard/addAnswer/${id}`}
                 state={{ language: question?.language }}
-                className="flex items-center  bg-blue-500/40 border border-blue-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-blue-500"
+                className="bg-blue-500 border border-blue-500 text-white px-3 py-2 rounded-lg text-sm font-semibold cursor-pointer hover:bg-blue-600 active:scale-95 transition flex  items-center"
               >
                 <Plus className="h-5" />
                 Add your aswers
@@ -254,7 +254,7 @@ const ViewQuestion = () => {
                               hour: "2-digit",
                               minute: "2-digit",
                               hour12: true,
-                            }
+                            },
                           )}
                         </h4>
                         <div>

@@ -42,7 +42,7 @@ export function FilterByLanguage({ onLanguageChange }) {
         <Button
           role="combobox"
           aria-expanded={open}
-          className="w-55 justify-between bg-zinc-100 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-300   "
+          className="w-55 justify-between bg-neutral-100/80 hover:bg-zinc-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-900 dark:text-zinc-300   "
         >
           {selected ? (
             <span className="flex items-center gap-2">

@@ -37,7 +37,7 @@ const Questions = () => {
       getAllQuestions();
     } else {
       const filtered = copyQuestionData.filter(
-        (question) => question.language === selectedLanguage
+        (question) => question.language === selectedLanguage,
       );
       setQuestionData(filtered);
     }
@@ -104,7 +104,7 @@ const Questions = () => {
                 {questionData.map((eachQuestion, index) => (
                   <div
                     key={index}
-                    className="bg-neutral-100 dark:bg-neutral-800/15 rounded-2xl p-3 my-5 border border-cyan-400 dark:border-cyan-500/10"
+                    className="bg-neutral-100/50 dark:bg-neutral-800/15 rounded-2xl p-3 my-5 border border-cyan-400 dark:border-cyan-500/10"
                   >
                     <div className="flex justify-between">
                       <div className="flex items-center gap-2 m-2">
@@ -200,7 +200,7 @@ const Questions = () => {
                         {eachQuestion.title}
                       </h1>
                     </div>
-                    <div className="bg-zinc-200 dark:bg-zinc-800 rounded-xl p-3">
+                    <div className="bg-neutral-200/50 dark:bg-zinc-800 rounded-xl p-3">
                       <h2 className="dark:text-zinc-200">
                         {eachQuestion.problem}
                       </h2>
@@ -216,13 +216,13 @@ const Questions = () => {
                             hour: "2-digit",
                             minute: "2-digit",
                             hour12: true,
-                          }
+                          },
                         )}
                       </h4>
 
                       <Link
                         to={`/dashboard/questions/${eachQuestion._id}`}
-                        className="bg-blue-500/40 border border-blue-600 px-3 py-2 rounded-lg text-sm cursor-pointer hover:bg-blue-500"
+                        className="bg-blue-500 border border-blue-500 text-white px-3 py-2 rounded-lg text-sm font-semibold cursor-pointer hover:bg-blue-600 active:scale-95 transition"
                       >
                         Open
                       </Link>

@@ -85,7 +85,7 @@ const Profile = () => {
         const apiResponse = await editProfile(
           userData.userId,
           reqBody,
-          reqHeader
+          reqHeader,
         );
 
         if (apiResponse.status === 200) {
@@ -133,7 +133,7 @@ const Profile = () => {
             const apiResponse = await changePassword(
               userDetails._id,
               reqBody,
-              reqHeader
+              reqHeader,
             );
 
             if (apiResponse.status === 200) {
@@ -200,7 +200,7 @@ const Profile = () => {
       const apiResponse = await changeProfilePhoto(
         userDetails._id,
         formData,
-        reqHeader
+        reqHeader,
       );
 
       if (apiResponse.status === 200) {

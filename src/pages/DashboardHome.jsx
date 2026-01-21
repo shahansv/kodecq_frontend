@@ -76,7 +76,7 @@ const DashboardHome = () => {
           <LoaderFive text="Loading..." />
         </div>
       ) : (
-        <div className="bg-zinc-200/80 dark:bg-zinc-950 h-screen w-full flex flex-col items-center md:justify-center rounded-md antialiased bg-grid-white/[0.02] relative overflow-hidden">
+        <div className="bg-zinc-100/10 dark:bg-zinc-950 h-screen w-full flex flex-col items-center md:justify-center rounded-md antialiased bg-grid-white/[0.02] relative overflow-hidden">
           <Spotlight />
 
           <div className="h-1/3 flex flex-col justify-center md:w-240 mx-auto">
@@ -91,7 +91,7 @@ const DashboardHome = () => {
 
           <div className="h-1/3 flex flex-col md:flex-row md:flex-wrap justify-center items-center gap-6 md:gap-4">
             <button
-              className="border border-blue-700 bg-blue-600/45 px-4 py-2 rounded-lg font-semibold flex gap-2 hover:bg-blue-600/80 cursor-pointer"
+              className="border border-blue-700 bg-blue-600/80 dark:bg-blue-600/45 text-white px-4 py-2 rounded-lg font-semibold flex gap-2 hover:bg-blue-600/80 cursor-pointer"
               onClick={newWorkpace}
             >
               <Plus /> New Workspace
@@ -102,7 +102,7 @@ const DashboardHome = () => {
             <div className="flex items-center">
               <input
                 type="text"
-                className="bg-neutral-200 dark:bg-neutral-800 border border-neutral-500  px-3 py-2 rounded-lg w-75 md:w-60 placeholder:text-neutral-500 text-neutral-300 focus:outline-blue-500 focus:outline-1"
+                className="bg-neutral-100 dark:bg-neutral-800 border border-neutral-500  px-3 py-2 rounded-lg w-75 md:w-60 placeholder:text-neutral-500 text-neutral-300 focus:outline-blue-500 focus:outline-1"
                 placeholder="Enter a room code"
                 onChange={(e) => setWorkspaceCode(e.target.value)}
               />
