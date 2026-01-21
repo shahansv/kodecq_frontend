@@ -72,7 +72,7 @@ const DashboardHome = () => {
   return (
     <>
       {isLoading ? (
-        <div className="h-screen w-full flex justify-center bg-black/80 items-center text-3xl">
+        <div className="h-screen w-full flex justify-center items-center text-3xl">
           <LoaderFive text="Loading..." />
         </div>
       ) : (

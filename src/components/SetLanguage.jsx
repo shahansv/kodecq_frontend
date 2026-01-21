@@ -79,7 +79,7 @@ export function SetLanguage({ language, onSetLanguage }) {
         <div className="modal-box rounded-2xl bg-zinc-200 dark:bg-zinc-800">
           <h3 className="font-bold text-lg">Change language</h3>
 
-          <p className="pt-4 text-zinc-400">
+          <p className="pt-4 text-zinc-600 dark:text-zinc-300">
             Changing the programming language will reset the editor content for
             everyone in this workspace.
           </p>
@@ -94,7 +94,7 @@ export function SetLanguage({ language, onSetLanguage }) {
 
             <button
               onClick={confirmOpenDropdown}
-              className="btn rounded-lg bg-blue-100 border border-blue-300 hover:bg-blue-500 hover:border-blue-500 px-5 text-blue-600 hover:text-blue-50"
+              className="rounded-lg bg-blue-500  px-5 text-white cursor-pointer active:scale-95 font-semibold flex justify-center items-center"
             >
               Continue
             </button>

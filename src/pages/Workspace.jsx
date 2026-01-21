@@ -216,7 +216,7 @@ const Workspace = () => {
                 <Tooltip>
                   <TooltipTrigger>
                     <div
-                      className="bg-zinc-200 dark:bg-zinc-500/20 px-3 py-1 rounded-md border border-zinc-600 text-sm hover:bg-zinc-800 active:scale-95 font-semibold  hover:text-zinc-200 h-8 mx-2 flex items-center cursor-pointer"
+                      className="dark:bg-zinc-500/20 bg-zinc-100 px-3 py-1 rounded-md border border-zinc-500 text-sm hover:bg-zinc-500 dark:hover:bg-zinc-500 active:scale-95 font-semibold  h-8 hover:text-white flex items-center justify-center mx-2"
                       onClick={() => downloadCode(code, language)}
                     >
                       <Download className="h-4" />
@@ -228,7 +228,7 @@ const Workspace = () => {
                 </Tooltip>
 
                 <LoaderButton
-                  className="dark:bg-blue-500/20 bg-blue-100 px-3 py-1 rounded-md border border-blue-500 text-sm hover:bg-blue-200 dark:hover:bg-blue-500 active:scale-95 font-semibold  h-8"
+                  className="dark:bg-blue-500/20 bg-blue-100 px-3 py-1 rounded-md border border-blue-500 text-sm hover:bg-blue-500 dark:hover:bg-blue-500 active:scale-95 font-semibold  h-8 hover:text-white"
                   onClick={runCode}
                 >
                   Run code
@@ -268,7 +268,7 @@ const Workspace = () => {
               <ResizableHandle withHandle />
 
               <ResizablePanel defaultSize={45}>
-                <div className="flex h-full flex-col p-4 bg-zinc-100/90 dark:bg-zinc-800">
+                <div className="flex h-full flex-col p-4 bg-zinc-100 dark:bg-zinc-800">
                   <h3 className="font-semibold mb-4 text-center">
                     <span className="mx-1">{users.length}</span>
                     Users in workspace
@@ -280,7 +280,7 @@ const Workspace = () => {
                         <div
                           key={user.socketId}
                           className="flex items-center gap-4 p-4
-                        rounded-lg bg-zinc-100 dark:bg-zinc-900
+                        rounded-lg bg-zinc-200 dark:bg-zinc-900
                         border border-zinc-400 dark:border-zinc-800
                         hover:border-zinc-600
                         transition"
@@ -341,7 +341,7 @@ const Workspace = () => {
         <div className="modal-box rounded-2xl bg-zinc-200 dark:bg-zinc-800 ">
           <h3 className="font-bold text-lg">Leave workspace</h3>
           <p className="pt-4">Are you sure you want to leave this workspace?</p>
-          <p className="py-1 text-zinc-400">
+          <p className="py-1 text-zinc-600 dark:text-zinc-300">
             After leaving this workspace, you won't be able to access the code
             written here. Please save your work by downloading or copying it
             before leaving.
@@ -354,7 +354,7 @@ const Workspace = () => {
             </form>
             <Link
               to={"/dashboard"}
-              className="btn rounded-lg bg-red-100 border border-red-300 hover:bg-red-500 hover:border-red-500 px-5 text-red-500 hover:text-red-50"
+              className="rounded-lg bg-red-500  px-5 text-white cursor-pointer active:scale-95 font-semibold flex justify-center items-center"
             >
               Leave
             </Link>
