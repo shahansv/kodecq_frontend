@@ -42,11 +42,7 @@ const Header = () => {
                 className="cursor-pointer transition active:rotate-45"
                 onClick={toggleTheme}
               >
-                {theme == "dark" ? (
-                  <Sun className="hover:text-amber-200 transition" />
-                ) : (
-                  <Moon className="hover:text-blue-200 transition" />
-                )}
+                {theme == "dark" ? <Sun /> : <Moon />}
               </button>
             </TooltipTrigger>
             <TooltipContent>

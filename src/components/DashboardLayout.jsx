@@ -97,11 +97,7 @@ export function DashboardLayout() {
                     className="cursor-pointer transition active:rotate-45"
                     onClick={toggleTheme}
                   >
-                    {theme == "dark" ? (
-                      <Sun className="hover:text-amber-200 transition" />
-                    ) : (
-                      <Moon className="hover:text-blue-800 transition" />
-                    )}
+                    {theme == "dark" ? <Sun /> : <Moon />}
                   </button>
                 </TooltipTrigger>
                 <TooltipContent>
